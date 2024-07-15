@@ -1,9 +1,9 @@
 package com.shch.authserver.model.vm.error
 
-import com.shch.authserver.getBean
-import com.shch.authserver.getRestCodeMsg
+import com.shch.authserver.utils.getRestCodeMsg
 import com.shch.authserver.model.vm.Rest
 import com.shch.authserver.model.vm.Rest.R.parse
+import com.shch.starterwebext.getBean
 import org.springframework.context.MessageSource
 import org.springframework.context.NoSuchMessageException
 

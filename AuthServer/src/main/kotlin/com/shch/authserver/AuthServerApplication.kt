@@ -1,23 +1,15 @@
 package com.shch.authserver
 
-import com.shch.authserver.AuthServerApplication.Companion.applicationContext
-import org.springframework.beans.factory.getBean
+import com.shch.starterwebext.Application
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.ApplicationContext
 
 @SpringBootApplication
-class AuthServerApplication{
-    companion object {
-        lateinit var applicationContext: ApplicationContext
-    }
-}
+class AuthServerApplication:Application(){
 
-inline fun <reified T : Any> getBean(): T {
-    return applicationContext.getBean()
 }
 
 
 fun main(args: Array<String>) {
-    applicationContext = runApplication<AuthServerApplication>(*args)
+    Application.context = runApplication<AuthServerApplication>(*args)
 }

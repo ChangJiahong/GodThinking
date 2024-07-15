@@ -25,9 +25,12 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":starter-web-ext"))
+
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-authorization-server")
 
     // jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
