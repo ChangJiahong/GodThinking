@@ -1,4 +1,4 @@
-package com.shch.authserver.config
+package com.shch.starterwebext.config
 
 import org.springframework.boot.autoconfigure.web.ServerProperties
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController

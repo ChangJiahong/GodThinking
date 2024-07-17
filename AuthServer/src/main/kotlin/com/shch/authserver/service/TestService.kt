@@ -3,6 +3,7 @@ package com.shch.authserver.service
 import com.shch.authserver.model.po.DemoPo
 import com.shch.authserver.repository.TestRepository
 import com.shch.authserver.service.ITestService
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 
 /**
@@ -19,4 +20,6 @@ class TestService(val iTestRepository: TestRepository): ITestService {
         val test = iTestRepository.findAll()
         return test
     }
+
+
 }

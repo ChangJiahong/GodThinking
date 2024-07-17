@@ -1,6 +1,7 @@
 package com.shch.authserver.service
 
 import com.shch.authserver.model.po.DemoPo
+import org.springframework.security.core.userdetails.UserDetailsService
 
 /**
  *

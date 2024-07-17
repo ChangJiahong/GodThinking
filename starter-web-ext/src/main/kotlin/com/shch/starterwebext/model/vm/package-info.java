@@ -1,0 +1,1 @@
+package com.shch.starterwebext.model.vm;

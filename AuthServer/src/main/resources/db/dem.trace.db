@@ -1,0 +1,8 @@
+2024-07-17 10:09:37.843090+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "OAUTH2_REGISTERED_CLIENT" not found; SQL statement:
+SELECT id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name, client_authentication_methods, authorization_grant_types, redirect_uris, post_logout_redirect_uris, scopes, client_settings,token_settings FROM oauth2_registered_client WHERE client_id = ? [42102-224]
+2024-07-17 02:26:48 jdbc[18]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "gt_users" not found; SQL statement:
+SELECT t.*
+FROM PUBLIC."gt_users" t
+FETCH FIRST 501 ROWS ONLY [42102-220]

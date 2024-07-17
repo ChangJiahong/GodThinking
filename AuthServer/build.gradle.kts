@@ -34,8 +34,9 @@ dependencies {
 
     // jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.xerial:sqlite-jdbc")
-    implementation("org.hibernate.orm:hibernate-community-dialects")
+//    implementation("org.xerial:sqlite-jdbc")
+    implementation("com.h2database:h2")
+//    implementation("org.hibernate.orm:hibernate-community-dialects")
 
 
 
