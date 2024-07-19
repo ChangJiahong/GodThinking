@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
+import org.springframework.security.oauth2.server.resource.authentication.JwtBearerTokenAuthenticationConverter
 import org.springframework.security.web.SecurityFilterChain
 
 
@@ -45,6 +46,15 @@ class DefaultSecurityConfig {
                     .accessDeniedHandler(LocalAccessDeniedHandler())
                     .accessDeniedPage("/error")
             }
+            .oauth2ResourceServer {
+
+                it.jwt(Customizer.withDefaults())
+
+                it.accessDeniedHandler(LocalAccessDeniedHandler())
+                    .authenticationEntryPoint(LocalAuthenticationEntryPoint())
+
+            }
+
 
         return http.build()
     }

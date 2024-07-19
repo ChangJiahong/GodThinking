@@ -1,6 +1,7 @@
 package com.shch.authserver.service
 
-import org.springframework.security.core.userdetails.UserDetailsService
+import com.shch.authserver.model.po.UserDTO
 
-interface IUserService:UserDetailsService {
+interface IUserService {
+    fun findByUsername(username: String): UserDTO
 }

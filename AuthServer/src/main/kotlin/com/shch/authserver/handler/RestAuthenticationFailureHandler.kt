@@ -3,6 +3,7 @@ package com.shch.authserver.handler
 import com.shch.authserver.error.AuthError
 import com.shch.starterwebext.model.vm.Rest
 import com.shch.starterwebext.model.vm.Rest.R.failed
+import com.shch.starterwebext.utils.print
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -27,6 +28,7 @@ class RestAuthenticationFailureHandler: AuthenticationFailureHandler {
         val error = ( exception as OAuth2AuthenticationException).error;
         val httpResponse = ServletServerHttpResponse(response);
         val result=Rest.failed(AuthError.OAuthError(error.errorCode))
-        accessTokenHttpResponseConverter.write(result, null, httpResponse);
+        response.print(result)
+//        accessTokenHttpResponseConverter.write(result, null, httpResponse);
     }
 }

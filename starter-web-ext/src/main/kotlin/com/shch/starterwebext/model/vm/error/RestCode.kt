@@ -25,7 +25,8 @@ fun RestCode.toPair(): Pair<Int, String> {
     return try {
         messageSource.getRestCodeMsg(this)
     } catch (_: NoSuchMessageException) {
-        val error = SystemError.ErrorCodeUndefined(code.toString())
+        val error = SystemError.ErrorCodeUndefined(
+            this::class.java.simpleName)
         messageSource.getRestCodeMsg(error)
     }
 }
