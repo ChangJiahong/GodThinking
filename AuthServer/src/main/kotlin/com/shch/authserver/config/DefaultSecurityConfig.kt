@@ -1,5 +1,6 @@
 package com.shch.authserver.config
 
+import com.shch.authserver.extmod.pwd.CusJwtGrantedAuthoritiesConverter
 import com.shch.authserver.handler.LocalAccessDeniedHandler
 import com.shch.authserver.handler.LocalAuthenticationEntryPoint
 import org.springframework.context.annotation.Bean
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtBearerTokenAuthenticationConverter
 import org.springframework.security.web.SecurityFilterChain
 
@@ -30,7 +32,7 @@ class DefaultSecurityConfig {
                 requestMatcherRegistry.requestMatchers("/hello").permitAll()
                 requestMatcherRegistry.anyRequest().authenticated()
             }
-            .csrf {it.disable() }
+            .csrf { it.disable() }
             .formLogin {
                 it.disable()
 //                Customizer.withDefaults()
@@ -48,9 +50,11 @@ class DefaultSecurityConfig {
             }
             .oauth2ResourceServer {
 
-                it.jwt(Customizer.withDefaults())
-
-                it.accessDeniedHandler(LocalAccessDeniedHandler())
+                it.jwt(Customizer.withDefaults()).jwt { jwt ->
+                    val jwtAuthenticationConverter = JwtAuthenticationConverter()
+                    jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(CusJwtGrantedAuthoritiesConverter())
+                    jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
+                }.accessDeniedHandler(LocalAccessDeniedHandler())
                     .authenticationEntryPoint(LocalAuthenticationEntryPoint())
 
             }

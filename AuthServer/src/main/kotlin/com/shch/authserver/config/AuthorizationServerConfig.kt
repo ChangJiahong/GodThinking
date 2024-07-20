@@ -5,12 +5,8 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
-import com.shch.authserver.extmod.oidc.CustomOidcAuthenticationConverter
-import com.shch.authserver.extmod.oidc.CustomOidcAuthenticationProvider
 import com.shch.authserver.extmod.pwd.PasswordAuthenticationConverter
 import com.shch.authserver.extmod.pwd.PasswordAuthenticationProvider
-import com.shch.authserver.handler.LocalAccessDeniedHandler
-import com.shch.authserver.handler.LocalAuthenticationEntryPoint
 import com.shch.authserver.handler.RestAuthenticationFailureHandler
 import com.shch.authserver.handler.RestAuthenticationSuccessHandler
 import com.shch.authserver.model.po.UserDTO
@@ -23,12 +19,9 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.AuthorityUtils
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.core.AuthorizationGrantType
@@ -37,42 +30,35 @@ import org.springframework.security.oauth2.core.OAuth2Token
 import org.springframework.security.oauth2.core.oidc.OidcScopes
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
-import org.springframework.security.oauth2.server.authorization.OAuth2TokenType
+import org.springframework.security.oauth2.server.authorization.*
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2ClientAuthenticationConfigurer
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OidcConfigurer
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings
 import org.springframework.security.oauth2.server.authorization.token.*
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import java.time.Duration
 import java.util.*
-import java.util.stream.Collectors
 
 
 @Configuration
-class AuthorizationServerConfig(val customOidcUserInfoService: CustomOidcUserInfoService) {
+class AuthorizationServerConfig {
 
     private var jwtCustomizer = OAuth2TokenCustomizer<JwtEncodingContext> { context ->
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.tokenType)
-            && context.getPrincipal<AbstractAuthenticationToken>() is UsernamePasswordAuthenticationToken){
-            val userpwdToken=context.getPrincipal<UsernamePasswordAuthenticationToken>()
+            && context.getPrincipal<AbstractAuthenticationToken>() is UsernamePasswordAuthenticationToken
+        ) {
+            val userpwdToken = context.getPrincipal<UsernamePasswordAuthenticationToken>()
             // Customize headers/claims for access_token
-            Optional.ofNullable(userpwdToken.principal).ifPresent {principal->
+            Optional.ofNullable(userpwdToken.principal).ifPresent { principal ->
                 val claims = context.claims;
                 if (principal is UserDTO) {
                     val userDetails = principal
@@ -81,9 +67,15 @@ class AuthorizationServerConfig(val customOidcUserInfoService: CustomOidcUserInf
                     claims.claim("uid", userId);  // 添加系统用户ID
 
                     // 角色集合存JWT
-                    var authorities :Set<String> = AuthorityUtils.authorityListToSet(userpwdToken.authorities)
+                    val authorities: MutableSet<String> = mutableSetOf()
+                    for (authority in userpwdToken.authorities) {
+                        authorities.add(authority.authority.split("_")[1])
+                    }
 
-                    claims.claim("ROLE", authorities);
+//                    var authorities: Set<String> = AuthorityUtils.authorityListToSet(userpwdToken.authorities)
+
+
+                    claims.claim("role", authorities)
 
                     // 权限集合存Redis(数据多)
 //                    Set<String> perms = userDetails.getPerms();
@@ -125,16 +117,6 @@ class AuthorizationServerConfig(val customOidcUserInfoService: CustomOidcUserInf
                     .accessTokenResponseHandler(RestAuthenticationSuccessHandler()) // 自定义成功响应
                     .errorResponseHandler(RestAuthenticationFailureHandler()) // 自定义失败响应
             }
-//            .oidc { Customizer.withDefaults<OidcConfigurer>() }
-//            .oidc { oidc ->
-//                oidc.userInfoEndpoint {
-//                    it.userInfoRequestConverter(CustomOidcAuthenticationConverter(customOidcUserInfoService))
-//                    it.authenticationProvider(CustomOidcAuthenticationProvider(authorizationService))
-//                    it.errorResponseHandler(RestAuthenticationFailureHandler())
-//                }
-//            }
-
-        // Enable OpenID Connect 1.0 自定义
 
 
         return http.build();

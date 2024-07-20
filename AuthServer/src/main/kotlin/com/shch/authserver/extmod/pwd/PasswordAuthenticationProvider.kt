@@ -158,47 +158,9 @@ class PasswordAuthenticationProvider(
             authorizationBuilder.refreshToken(refreshToken)
         }
 
-//        // ----- ID token -----
-//        val idToken: OidcIdToken?
-//        if (requestedScopes.contains(OidcScopes.OPENID)) {
-//            // @formatter:off
-//            tokenContext = tokenContextBuilder
-//            .tokenType(ID_TOKEN_TOKEN_TYPE)
-//            .authorization(authorizationBuilder.build()) // ID token customizer may need access to the access token and/or refresh token
-//            .build()
-//                        // @formatter:on
-//            val generatedIdToken = tokenGenerator.generate(tokenContext)
-//            if (generatedIdToken !is Jwt) {
-//                val error = OAuth2Error(
-//                    OAuth2ErrorCodes.SERVER_ERROR,
-//                    "The token generator failed to generate the ID token.", ERROR_URI
-//                )
-//                throw OAuth2AuthenticationException(error)
-//            }
-//
-////            if (log.isTraceEnabled()) {
-////                log.trace("Generated id token")
-////            }
-//
-//            idToken = OidcIdToken(
-//                generatedIdToken.getTokenValue(), generatedIdToken.getIssuedAt(),
-//                generatedIdToken.getExpiresAt(), generatedIdToken.claims
-//            )
-//            authorizationBuilder.token(idToken) { metadata: MutableMap<String?, Any?> ->
-//                metadata[OAuth2Authorization.Token.CLAIMS_METADATA_NAME] = idToken.claims
-//            }
-//        } else {
-//            idToken = null
-//        }
-//
 //        // 持久化令牌发放记录到数据库
         val authorization = authorizationBuilder.build()
         authorizationService.save(authorization)
-//
-//        additionalParameters = if ((idToken != null)) {
-//            Collections.singletonMap<String?, Any?>(OidcParameterNames.ID_TOKEN, idToken.tokenValue)
-//        }
-//        else emptyMap()
 
         return OAuth2AccessTokenAuthenticationToken(
             registeredClient,
@@ -224,6 +186,5 @@ class PasswordAuthenticationProvider(
 
     companion object {
         private const val ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2"
-        private val ID_TOKEN_TOKEN_TYPE = OAuth2TokenType(OidcParameterNames.ID_TOKEN)
     }
 }
