@@ -10,7 +10,6 @@ import com.shch.authserver.extmod.pwd.PasswordAuthenticationProvider
 import com.shch.authserver.handler.RestAuthenticationFailureHandler
 import com.shch.authserver.handler.RestAuthenticationSuccessHandler
 import com.shch.authserver.model.po.UserDTO
-import com.shch.authserver.service.impl.CustomOidcUserInfoService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
