@@ -1,6 +1,6 @@
 package com.shch.authserver.handler
 
-import com.shch.authserver.error.AuthError
+import com.shch.starterwebext.error.AuthError
 import com.shch.starterwebext.model.vm.Rest
 import com.shch.starterwebext.model.vm.Rest.R.failed
 import com.shch.starterwebext.utils.print

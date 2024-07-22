@@ -1,4 +1,4 @@
-package com.shch.resdemo.handler
+package com.shch.starterwebext.handler
 
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory

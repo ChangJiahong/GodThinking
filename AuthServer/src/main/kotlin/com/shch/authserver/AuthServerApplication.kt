@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 @SpringBootApplication
 @EnableWebExtConfig
-// 开启鉴权注解
-@EnableMethodSecurity(securedEnabled = true,jsr250Enabled=true)
 class AuthServerApplication:Application(){
 
 }

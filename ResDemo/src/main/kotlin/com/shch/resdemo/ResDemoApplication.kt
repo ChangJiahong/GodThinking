@@ -1,4 +1,4 @@
-package com.shch.resdemo
+                                                                                                                                                                                                                                                                                                                                                                                                 package com.shch.resdemo
 
 import com.shch.starterwebext.Application
 import com.shch.starterwebext.config.EnableWebExtConfig
@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @SpringBootApplication
 @EnableWebExtConfig
-// 开启鉴权注解
-@EnableMethodSecurity(securedEnabled = true,jsr250Enabled=true)
 class ResDemoApplication: Application()
 
 

@@ -1,4 +1,4 @@
-package com.shch.authserver.error
+package com.shch.starterwebext.error
 
 import com.shch.starterwebext.model.vm.error.RestCode
 

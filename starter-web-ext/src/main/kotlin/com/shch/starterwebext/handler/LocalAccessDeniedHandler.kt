@@ -1,6 +1,6 @@
-package com.shch.authserver.handler
+package com.shch.starterwebext.handler
 
-import com.shch.authserver.error.AuthError
+import com.shch.starterwebext.error.AuthError
 import com.shch.starterwebext.model.vm.error.toRest
 import com.shch.starterwebext.utils.print
 import jakarta.servlet.http.HttpServletRequest

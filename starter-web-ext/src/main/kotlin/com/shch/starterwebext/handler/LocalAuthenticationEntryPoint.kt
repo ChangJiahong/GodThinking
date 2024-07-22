@@ -1,6 +1,6 @@
-package com.shch.resdemo.handler
+package com.shch.starterwebext.handler
 
-import com.shch.resdemo.AuthError
+import com.shch.starterwebext.error.AuthError
 import com.shch.starterwebext.model.vm.error.RestCode
 import com.shch.starterwebext.model.vm.error.toRest
 import com.shch.starterwebext.utils.print
@@ -19,7 +19,14 @@ import org.springframework.security.web.authentication.rememberme.*
 import org.springframework.security.web.authentication.rememberme.InvalidCookieException
 import org.springframework.security.web.authentication.www.NonceExpiredException
 
-class LocalAuthenticationEntryPoint : AuthenticationEntryPoint {
+class LocalAuthenticationEntryPoint(
+    val customHandlerExt: (AuthenticationException?) -> Pair<Boolean, AuthError?> = {
+        Pair(
+            false,
+            null
+        )
+    }
+) : AuthenticationEntryPoint {
     private val accessTokenHttpResponseConverter = MappingJackson2HttpMessageConverter();
 
     override fun commence(
@@ -47,7 +54,7 @@ class LocalAuthenticationEntryPoint : AuthenticationEntryPoint {
             is CookieTheftException -> AuthError.CookieTheft
             is CredentialsExpiredException -> AuthError.CredentialsExpired
             is DisabledException -> AuthError.Disabled
-            is InsufficientAuthenticationException -> AuthError.InsufficientAuthentication(authException.message?:"")
+            is InsufficientAuthenticationException -> AuthError.InsufficientAuthentication(authException.message ?: "")
             is InternalAuthenticationServiceException -> AuthError.InternalAuthenticationService
             is InvalidBearerTokenException -> AuthError.InvalidBearerToken
             is InvalidCookieException -> AuthError.InvalidCookie
@@ -59,7 +66,10 @@ class LocalAuthenticationEntryPoint : AuthenticationEntryPoint {
             is ProviderNotFoundException -> AuthError.ProviderNotFound
             is RememberMeAuthenticationException -> AuthError.RememberMeAuthentication
             is UsernameNotFoundException -> AuthError.UsernameNotFound
-            else -> AuthError.NotLoggedIn
+            else -> {
+                val (r, errorCode) = customHandlerExt(authException)
+                if (r) errorCode!! else AuthError.NotLoggedIn
+            }
         }
     }
 }
