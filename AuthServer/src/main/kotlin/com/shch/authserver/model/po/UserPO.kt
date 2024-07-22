@@ -1,5 +1,7 @@
 package com.shch.authserver.model.po
 
+import com.shch.authserver.model.mapper.UserMapper
+import com.shch.starterwebext.model.mapper.AutoMapper
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -7,7 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
 @Table(name = "gt_users")
-data class UserDTO(
+@AutoMapper(UserMapper::class)
+data class UserPO(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)   //自增
     var id: Long = -1,
@@ -22,7 +25,7 @@ data class UserDTO(
         joinColumns = [JoinColumn(name = "userId",referencedColumnName="uid")],
         inverseJoinColumns = [JoinColumn(name = "roleId",referencedColumnName="rid")]
     )
-    var roles: List<RoleDTO> = ArrayList()
+    var roles: List<RolePO> = ArrayList()
 ) : UserDetails {
 
 

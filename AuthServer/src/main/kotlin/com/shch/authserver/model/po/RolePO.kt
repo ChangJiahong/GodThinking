@@ -4,7 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "gt_roles")
-data class RoleDTO(
+data class RolePO(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)   //自增
     var id: Long = -1,

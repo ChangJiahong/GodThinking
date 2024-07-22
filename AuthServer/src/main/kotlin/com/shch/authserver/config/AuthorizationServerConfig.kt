@@ -9,7 +9,7 @@ import com.shch.authserver.extmod.pwd.PasswordAuthenticationConverter
 import com.shch.authserver.extmod.pwd.PasswordAuthenticationProvider
 import com.shch.authserver.handler.RestAuthenticationFailureHandler
 import com.shch.authserver.handler.RestAuthenticationSuccessHandler
-import com.shch.authserver.model.po.UserDTO
+import com.shch.authserver.model.po.UserPO
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
@@ -20,7 +20,6 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.core.AuthorizationGrantType
@@ -59,7 +58,7 @@ class AuthorizationServerConfig {
             // Customize headers/claims for access_token
             Optional.ofNullable(userpwdToken.principal).ifPresent { principal ->
                 val claims = context.claims;
-                if (principal is UserDTO) {
+                if (principal is UserPO) {
                     val userDetails = principal
                     // 系统用户添加自定义字段
                     val userId = userDetails.uid;
