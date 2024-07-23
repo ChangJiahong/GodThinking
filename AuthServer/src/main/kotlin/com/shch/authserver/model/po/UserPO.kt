@@ -1,15 +1,12 @@
 package com.shch.authserver.model.po
 
-import com.shch.authserver.model.mapper.UserMapper
-import com.shch.starterwebext.annotation.AutoMapper
+import com.shch.authserver.model.struct.UserStruct
+import com.shch.starterwebext.annotation.AutoStruct
 import jakarta.persistence.*
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
 @Table(name = "gt_users")
-@AutoMapper(UserMapper::class)
+@AutoStruct(UserStruct::class)
 data class UserPO(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)   //自增

@@ -2,13 +2,14 @@ package com.shch.authserver
 
 import com.shch.starterwebext.Application
 import com.shch.starterwebext.config.EnableWebExtConfig
+import org.apache.ibatis.annotations.Mapper
+import org.mybatis.spring.annotation.MapperScan
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 
 @SpringBootApplication
 @EnableWebExtConfig
+@MapperScan("com.shch.authserver.mapper", annotationClass = Mapper::class)
 class AuthServerApplication:Application(){
 
 }

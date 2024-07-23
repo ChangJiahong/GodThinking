@@ -1,17 +1,16 @@
 package com.shch.starterwebext.model.mapper
 
-import com.shch.starterwebext.annotation.AutoMapper
+import com.shch.starterwebext.annotation.AutoStruct
 import com.shch.starterwebext.model.vm.error.SystemError
 import org.mapstruct.factory.Mappers
-import kotlin.reflect.KClass
 
 inline fun <reified A, reified B> A.go(): B {
     val sourceClass = A::class.java
     val targetClass = B::class.java
-    if (!sourceClass.isAnnotationPresent(AutoMapper::class.java)){
+    if (!sourceClass.isAnnotationPresent(AutoStruct::class.java)){
         throw SystemError.ServerError("class ${sourceClass.name} 未找到可以转换的Mapper")
     }
-    val mapperClass = A::class.java.getAnnotation(AutoMapper::class.java).mapperClazz
+    val mapperClass = A::class.java.getAnnotation(AutoStruct::class.java).mapperClazz
     val mapper =  Mappers.getMapper(mapperClass.java)
     mapperClass.java.methods.forEach {method ->
         if (method.parameterCount!=1){

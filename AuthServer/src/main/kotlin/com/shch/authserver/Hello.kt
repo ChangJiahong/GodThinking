@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 
 @RestController
-class Hello(val iTestService: ITestService) {
+class Hello() {
     @GetMapping("/hello")
     fun hello(): Rest {
         throw SystemError.InternalServerError

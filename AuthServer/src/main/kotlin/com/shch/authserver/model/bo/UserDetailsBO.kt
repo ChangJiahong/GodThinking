@@ -1,6 +1,6 @@
 package com.shch.authserver.model.bo
 
-import com.shch.authserver.model.po.UserPO
+import com.shch.authserver.model.domain.GtUser
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -14,7 +14,7 @@ data class UserDetailsBO(
     private var _authorities: MutableCollection<out GrantedAuthority> = ArrayList()
 ) : UserDetails {
 
-    constructor(user: UserPO) : this(
+    constructor(user: GtUser) : this(
         uid = user.uid,
         nickname = user.nickname,
         email = user.email,

@@ -1,11 +1,11 @@
-package com.shch.authserver.model.mapper
+package com.shch.authserver.model.struct
 
 import com.shch.authserver.model.po.UserPO
 import com.shch.authserver.model.vm.UserInfoVM
 import org.mapstruct.Mapper
 
 @Mapper(componentModel = "spring")
-interface UserMapper{
+interface UserStruct{
 
     fun top(userPO: UserPO):UserInfoVM
 

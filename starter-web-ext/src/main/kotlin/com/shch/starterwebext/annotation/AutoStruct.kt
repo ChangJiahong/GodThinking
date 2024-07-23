@@ -14,4 +14,4 @@ import kotlin.reflect.KClass
 //    AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class AutoMapper(val mapperClazz: KClass<*>)
+annotation class AutoStruct(val mapperClazz: KClass<*>)

@@ -1,6 +1,6 @@
 package com.shch.authserver.controller
 
-import com.shch.authserver.model.mapper.UserMapper
+import com.shch.authserver.model.struct.UserStruct
 import com.shch.authserver.model.po.UserPO
 import com.shch.authserver.model.vm.UserInfoVM
 import com.shch.authserver.service.IUserService
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import java.security.Principal
 
 @RestMappingController("/api/v1/user")
-class UserAuthController(val userService: IUserService, val userMapper: UserMapper) {
+class UserAuthController(val userService: IUserService, val userStruct: UserStruct) {
     var logger: Logger = LoggerFactory.getLogger(UserAuthController::class.java)
 
 
