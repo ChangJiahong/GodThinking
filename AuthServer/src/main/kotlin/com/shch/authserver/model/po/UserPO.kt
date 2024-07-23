@@ -1,7 +1,7 @@
 package com.shch.authserver.model.po
 
 import com.shch.authserver.model.mapper.UserMapper
-import com.shch.starterwebext.model.mapper.AutoMapper
+import com.shch.starterwebext.annotation.AutoMapper
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -26,29 +26,6 @@ data class UserPO(
         inverseJoinColumns = [JoinColumn(name = "roleId",referencedColumnName="rid")]
     )
     var roles: List<RolePO> = ArrayList()
-) : UserDetails {
+) {
 
-
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        if (roles.isEmpty()) {
-            return ArrayList()
-        }
-        val authorities: MutableList<SimpleGrantedAuthority> = ArrayList()
-        for (role in roles) {
-            authorities.add(SimpleGrantedAuthority(role.attr))
-        }
-        return authorities
-    }
-
-    override fun getPassword(): String = pwd
-
-    override fun getUsername(): String = email
-
-    override fun isAccountNonExpired(): Boolean = true
-
-    override fun isAccountNonLocked(): Boolean = true
-
-    override fun isCredentialsNonExpired(): Boolean = true
-
-    override fun isEnabled(): Boolean = true
 }

@@ -1,23 +1,9 @@
 package com.shch.starterwebext.model.mapper
 
+import com.shch.starterwebext.annotation.AutoMapper
 import com.shch.starterwebext.model.vm.error.SystemError
 import org.mapstruct.factory.Mappers
 import kotlin.reflect.KClass
-
-
-@Target(
-    //类注解
-    AnnotationTarget.CLASS,
-//    //属性变量注解
-//    AnnotationTarget.FIELD,
-//    //函数方法注解
-//    AnnotationTarget.FUNCTION,
-//    //方法参数注解
-//    AnnotationTarget.VALUE_PARAMETER
-)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class AutoMapper(val mapperClazz: KClass<*>)
-
 
 inline fun <reified A, reified B> A.go(): B {
     val sourceClass = A::class.java

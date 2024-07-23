@@ -1,7 +1,7 @@
 package com.shch.authserver.model.vm
 
 import com.shch.authserver.model.mapper.UserMapper
-import com.shch.starterwebext.model.mapper.AutoMapper
+import com.shch.starterwebext.annotation.AutoMapper
 
 @AutoMapper(UserMapper::class)
 data class UserInfoVM(

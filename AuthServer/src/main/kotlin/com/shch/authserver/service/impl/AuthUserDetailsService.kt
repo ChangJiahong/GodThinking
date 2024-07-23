@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service
 @Service
 class AuthUserDetailsService(val userService: IUserService): UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        return userService.findByUsername(username)
+        return userService.getUserDetailsBOByEmail(username)
     }
 }

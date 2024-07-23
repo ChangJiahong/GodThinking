@@ -36,7 +36,7 @@ class DefaultSecurityConfig {
         http
             .authorizeHttpRequests { requestMatcherRegistry ->
                 requestMatcherRegistry.requestMatchers("/hello").permitAll()
-                requestMatcherRegistry.requestMatchers("/info").permitAll()
+//                requestMatcherRegistry.requestMatchers("/api/v1/user/info").permitAll()
                 requestMatcherRegistry.anyRequest().authenticated()
             }
             .csrf { it.disable() }
