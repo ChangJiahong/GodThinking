@@ -11,10 +11,28 @@
             <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
             <result property="pwd" column="pwd" jdbcType="VARCHAR"/>
             <result property="uid" column="uid" jdbcType="VARCHAR"/>
+
+        <collection property="roles" ofType="String">
+            <result property="attr" column="attr"/>
+        </collection>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,create_time,email,
-        nickname,pwd,uid
+    <sql id="all_columns">
+        ${prefix}.id,
+        ${prefix}.create_time,
+        ${prefix}.email,
+        ${prefix}.nickname,
+        ${prefix}.pwd,
+        ${prefix}.uid
     </sql>
+
+    <select id="selectUserByEmail" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="all_columns"><property name="prefix" value="u"/></include>,
+            r.attr
+        from GT_USERS as u
+        left join GT_USER_ROLE as ur on ur.user_id = u.uid
+        left join GT_ROLES as r on ur.ROLE_ID = r.rid
+        where u.email = #{email}
+    </select>
 </mapper>

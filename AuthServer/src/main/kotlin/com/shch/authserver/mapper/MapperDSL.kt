@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.extension.kotlin.KtQueryChainWrapper
 import java.io.Serializable
 import java.util.*
 
+interface IBaseMapper<T,M> :BaseMapper<T>{}
+
+
 inline fun <reified T : Any> BaseMapper<T>.query(block: KtQueryChainWrapper<T>.() -> T): T {
     return block(query())
 }
@@ -13,7 +16,7 @@ inline fun <reified T : Any> BaseMapper<T>.query(): KtQueryChainWrapper<T> {
     return KtQueryChainWrapper(this, T::class.java)
 }
 
-fun <T> BaseMapper<T>.op(block: BaseMapper<T>.() -> T?): Optional<T & Any> {
+fun <T,M:IBaseMapper<T,M>> M.op(block: M.() -> T?): Optional<T & Any> {
     return Optional.ofNullable(block(this))
 }
 

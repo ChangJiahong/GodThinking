@@ -1,10 +1,13 @@
 package com.shch.authserver.model.bo
 
 import com.shch.authserver.model.domain.GtUser
+import com.shch.authserver.model.struct.UserStruct
+import com.shch.starterwebext.annotation.AutoStruct
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
+@AutoStruct(UserStruct::class)
 data class UserDetailsBO(
     var uid: String = "",
     var nickname: String = "",
@@ -24,7 +27,7 @@ data class UserDetailsBO(
         val authorities: MutableList<SimpleGrantedAuthority> = ArrayList()
         val roles = user.roles
         for (role in roles) {
-            authorities.add(SimpleGrantedAuthority(role.attr))
+            authorities.add(SimpleGrantedAuthority(role))
         }
         this._authorities = authorities
     }

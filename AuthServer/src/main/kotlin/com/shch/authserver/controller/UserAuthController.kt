@@ -2,7 +2,7 @@ package com.shch.authserver.controller
 
 import com.shch.authserver.model.struct.UserStruct
 import com.shch.authserver.model.po.UserPO
-import com.shch.authserver.model.vm.UserInfoVM
+import com.shch.authserver.model.vm.UserInfoVO
 import com.shch.authserver.service.IUserService
 import com.shch.starterwebext.annotation.RestMappingController
 import com.shch.starterwebext.model.mapper.go
@@ -22,14 +22,8 @@ class UserAuthController(val userService: IUserService, val userStruct: UserStru
     fun userinfo(principal: Principal): Rest {
         val email = principal.name
 
-//        userService.getUserDetailsBOByEmail()
+        val userInfoVO = userService.getUserInfoVOByEmail(email)
 
-        val userPO = UserPO(id = 10, nickname = "nicknick")
-
-        val userinfo: UserInfoVM = userPO.go()
-
-        val user: UserPO = userinfo.go()
-
-        return Rest.ok(principal)
+        return Rest.ok(userInfoVO)
     }
 }

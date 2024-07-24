@@ -11,7 +11,9 @@ import org.apache.ibatis.annotations.Mapper
  * @Entity com.shch.authserver.domain.GtUser
  */
 @Mapper
-interface GtUserMapper : BaseMapper<GtUser>
+interface GtUserMapper : IBaseMapper<GtUser,GtUserMapper>{
+    fun selectUserByEmail(email: String): GtUser?
+}
 
 
 
