@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shch.a4blog.mapper.GtMdMapper">
+
+    <resultMap id="BaseResultMap" type="com.shch.a4blog.model.domain.GtMd">
+            <id property="id" column="ID" jdbcType="BIGINT"/>
+            <result property="mdId" column="MD_ID" jdbcType="VARCHAR"/>
+            <result property="content" column="CONTENT" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="title" column="TITLE" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,MD_ID,CONTENT,
+        UPDATE_TIME,CREATE_TIME,TITLE
+    </sql>
+
+    <select id="selectByMdId" resultMap="BaseResultMap" parameterType="string">
+        select * from Gt_md where md_id = #{mdId}
+    </select>
+</mapper>

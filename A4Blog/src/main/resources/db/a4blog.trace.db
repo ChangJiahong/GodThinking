@@ -1,0 +1,3 @@
+2024-07-25 16:54:15.454020+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GT_PAGE" not found (this database is empty); SQL statement:
+select * from Gt_Page where page_name = ? [42104-224]
