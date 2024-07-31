@@ -11,7 +11,7 @@ import com.shch.starterwebext.model.vm.error.toPair
  * @date 2024/7/11
  * Create By IDEA
  */
-class Rest private constructor(val code: Int, val msg: String? = null, val data: Any? = null) {
+open class Rest(open val code: Int, open val msg: String? = null, open val data: Any? = null) {
     companion object R {
 
         private fun R.pair(pair: Pair<Int, String>, data: Any? = null) = Rest(pair.first, pair.second, data)

@@ -1,5 +1,6 @@
 package com.shch.a4blog.api
 
+import com.shch.a4blog.model.vm.RestRepo
 import com.shch.a4blog.model.vo.LoginResVO
 import com.shch.starterwebext.model.vm.Rest
 import org.springframework.web.bind.annotation.RequestHeader
@@ -16,5 +17,5 @@ interface IAuthApi {
         @RequestParam password: String,
         @RequestParam grant_type: String = "password",
         @RequestHeader("Authorization") authToken: String = "Basic QTQtQmxvZzpKeHhBNDIyMzM="
-    ):Rest
+    ):RestRepo<LoginResVO>
 }

@@ -1,5 +1,6 @@
 package com.shch.a4blog.web
 
+import com.shch.a4blog.model.vm.RestRepo
 import com.shch.a4blog.service.IAccountService
 import com.shch.starterwebext.model.vm.Rest
 import com.shch.starterwebext.model.vm.Rest.R.ok
@@ -7,14 +8,17 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.security.Principal
 
 
 @Controller
 @RequestMapping("/admin")
-class AdminController(val accountService:IAccountService) {
+class AdminController(val accountService: IAccountService) {
 
-    @GetMapping("","/")
+    @GetMapping("", "/")
     fun adminIndex(principal: Principal): String {
         val username = principal.name
         return "admin/majestic/index"
@@ -27,13 +31,19 @@ class AdminController(val accountService:IAccountService) {
 
     @PostMapping("/login")
     @ResponseBody
-    fun doLogin(@RequestParam username: String, @RequestParam password: String,httpResponse: HttpServletResponse): Rest {
-
+    fun doLogin(
+        @RequestParam username: String,
+        @RequestParam password: String,
+        httpResponse: HttpServletResponse
+    ): Rest {
         val rest = accountService.login(username, password)
-
-//        if (rest.isOk){
-//            httpResponse.setHeader("Set-Cookie","Authorization=;refresh_token")
-//        }
+        if (rest.isOk) {
+            val encodeToekn = URLEncoder.encode("bearer ${rest.data!!.access_token}", StandardCharsets.UTF_8.name())
+            httpResponse.setHeader(
+                "Set-Cookie",
+                "Authorization=${encodeToekn};refresh_token=${rest.data.refresh_token}"
+            )
+        }
         return rest
     }
 
@@ -44,7 +54,7 @@ class AdminController(val accountService:IAccountService) {
     }
 
     @GetMapping("/sa")
-    fun ta():Rest{
+    fun ta(): Rest {
         return Rest.ok()
     }
 }

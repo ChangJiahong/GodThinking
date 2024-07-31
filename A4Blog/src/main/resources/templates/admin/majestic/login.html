@@ -85,8 +85,8 @@
             if (data.code !== 200) {
                 Swal.fire(data.msg);
             } else {
-                $.cookie("Authorization", "bearer "+data.data.access_token)
-                $.cookie("refresh_token", data.data.refresh_token)
+                // $.cookie("Authorization", "bearer "+data.data.access_token)
+                // $.cookie("refresh_token", data.data.refresh_token)
                 window.location.replace("/admin");
             }
             console.log(data)
