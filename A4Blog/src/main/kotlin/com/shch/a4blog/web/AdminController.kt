@@ -13,4 +13,9 @@ class AdminController {
     fun adminIndex():String{
         return "admin/majestic/index1"
     }
+
+    @GetMapping("/login")
+    fun login():String{
+        return "admin/majestic/login"
+    }
 }
