@@ -17,7 +17,7 @@ java {
 }
 
 repositories {
-    maven { url = uri("https://plugins.gradle.org/m2/") }
+//    maven { url = uri("https://plugins.gradle.org/m2/") }
     maven { url = uri("https://maven.aliyun.com/nexus/content/groups/public/") }
     maven { url = uri("https://maven.aliyun.com/nexus/content/repositories/jcenter") }
     maven { url = uri("https://maven.aliyun.com/nexus/content/repositories/gradle-plugin") }

@@ -23,5 +23,8 @@ class Rest private constructor(val code: Int, val msg: String? = null, val data:
         fun R.ok(data: Any? = null) = ok(OK, data)
 
         fun R.failed(state: RestCode, data: Any? = null) = Rest.parse(state, data)
+
     }
+
+    val isOk = code == OK.code
 }

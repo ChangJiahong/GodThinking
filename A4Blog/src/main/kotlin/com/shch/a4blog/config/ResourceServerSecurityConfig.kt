@@ -16,6 +16,7 @@ class ResourceServerSecurityConfig : ResourceServerSecurityConfigAdapter() {
         http
             .authorizeHttpRequests { requestMatcherRegistry ->
                 requestMatcherRegistry.requestMatchers("/admin/login").permitAll()
+                requestMatcherRegistry.requestMatchers("/admin/te").permitAll()
                 requestMatcherRegistry.requestMatchers("/admin/**").authenticated()
 //                requestMatcherRegistry.requestMatchers("/**").permitAll()
                 requestMatcherRegistry.anyRequest().permitAll()
@@ -30,6 +31,7 @@ class ResourceServerSecurityConfig : ResourceServerSecurityConfigAdapter() {
             }
             .oauth2ResourceServer {
                 it.bearerTokenResolver(CookieBearerTokenResolver())
+                it.authenticationEntryPoint(MyAuthenticationEntryPoint())
             }
     }
 }

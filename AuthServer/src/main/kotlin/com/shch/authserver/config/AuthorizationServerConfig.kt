@@ -169,6 +169,7 @@ class AuthorizationServerConfig {
 
         // 初始化 OAuth2 客户端
         initAppClient(registeredClientRepository)
+        initWebBlogClient(registeredClientRepository)
 //        initMallAdminClient(registeredClientRepository)
 
         return registeredClientRepository
@@ -210,6 +211,38 @@ class AuthorizationServerConfig {
         registeredClientRepository.save(mallAppClient)
     }
 
+    private fun initWebBlogClient(registeredClientRepository: JdbcRegisteredClientRepository) {
+        val clientId = "A4-Blog"
+        val clientSecret = "JxxA42233"
+        val clientName = "博客网站客户端"
+
+        /*
+          如果使用明文，客户端认证时会自动升级加密方式，换句话说直接修改客户端密码，所以直接使用 bcrypt 加密避免不必要的麻烦
+          官方ISSUE： https://github.com/spring-projects/spring-authorization-server/issues/1099
+         */
+        val encodeSecret = passwordEncoder().encode(clientSecret)
+
+        val registeredMallAdminClient = registeredClientRepository.findByClientId(clientId)
+        val id = if (registeredMallAdminClient != null) registeredMallAdminClient.id else UUID.randomUUID().toString()
+
+        val mallAppClient = RegisteredClient.withId(id)
+            .clientId(clientId)
+            .clientSecret(encodeSecret)
+            .clientName(clientName)
+            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+            .authorizationGrantType(AuthorizationGrantType.PASSWORD) // 密码模式
+            .redirectUri("http://127.0.0.1:8080/authorized")
+            .postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
+//            .scope(OidcScopes.OPENID)
+//            .scope(OidcScopes.PROFILE)
+            .tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofDays(1)).build())
+            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+            .build()
+        registeredClientRepository.save(mallAppClient)
+    }
 
     @Bean
     fun authorizationService(
