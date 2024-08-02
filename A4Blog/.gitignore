@@ -38,3 +38,4 @@ out/
 
 ### Kotlin ###
 .kotlin
+/src/main/resources/db/a4blog.lock.db

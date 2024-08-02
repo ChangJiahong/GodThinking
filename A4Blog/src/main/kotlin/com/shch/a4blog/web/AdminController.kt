@@ -1,6 +1,5 @@
 package com.shch.a4blog.web
 
-import com.shch.a4blog.model.vm.RestRepo
 import com.shch.a4blog.service.IAccountService
 import com.shch.starterwebext.model.vm.Rest
 import com.shch.starterwebext.model.vm.Rest.R.ok
@@ -8,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.security.Principal
@@ -24,20 +22,19 @@ class AdminController(val accountService: IAccountService) {
         return "admin/majestic/index"
     }
 
-
     @GetMapping("edit-md")
     fun editMd():String{
-        return "admin/majestic/edit-md"
+        return "admin/majestic/pages/md/edit-md"
     }
 
     @GetMapping("manger-md")
     fun mangerMd():String{
-        return "admin/majestic/manger-md"
+        return "admin/majestic/pages/md/manger-md"
     }
 
     @GetMapping("/login")
     fun login(): String {
-        return "admin/majestic/login"
+        return "admin/majestic/pages/samples/login"
     }
 
     @PostMapping("/login")
