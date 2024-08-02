@@ -24,6 +24,12 @@ class AdminController(val accountService: IAccountService) {
         return "admin/majestic/index"
     }
 
+
+    @GetMapping("edit-md")
+    fun editMd():String{
+        return "admin/majestic/edit-md"
+    }
+
     @GetMapping("/login")
     fun login(): String {
         return "admin/majestic/login"
@@ -45,6 +51,12 @@ class AdminController(val accountService: IAccountService) {
             )
         }
         return rest
+    }
+
+    @PostMapping("/put-md")
+    @ResponseBody
+    fun putMd(@RequestParam title:String,@RequestParam mdContent:String):Rest{
+        return Rest.ok()
     }
 
     @GetMapping("te")

@@ -63,9 +63,9 @@
                     <script>
                         // 1. 调用 parse 方法，将对应的 markdown 文本内容转译为 html 页面；
                         const mdContent = $("#mdContent")
-                        console.log(mdContent)
+                        // console.log(mdContent)
                         let parsedHtml = marked.parse(mdContent.val());
-                        console.log(parsedHtml)
+                        // console.log(parsedHtml)
                         $("#content").html(parsedHtml); // 新增页面
                         mdContent.val("")
                         // 2. 执行 mathjax 渲染
