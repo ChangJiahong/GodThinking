@@ -30,6 +30,11 @@ class AdminController(val accountService: IAccountService) {
         return "admin/majestic/edit-md"
     }
 
+    @GetMapping("manger-md")
+    fun mangerMd():String{
+        return "admin/majestic/manger-md"
+    }
+
     @GetMapping("/login")
     fun login(): String {
         return "admin/majestic/login"

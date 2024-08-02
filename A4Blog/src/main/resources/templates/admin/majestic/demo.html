@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/majestic/layout}">
+<body>
+<section layout:fragment="main">
+    <div class="content-wrapper pb-0">
+        <div class="page-header flex-wrap">
+            <h3 class="mb-0"> Markdown 编辑!
+            </h3>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+
+                <div class="card">
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+
+        $("#put").click(function () {
+
+            $("#md_form").ajaxSubmit(function (data) {
+                // alert(data.Message);
+                if (data.code !== 200) {
+                    Swal.fire(data.msg);
+                } else {
+                    // $.cookie("Authorization", "bearer "+data.data.access_token)
+                    // $.cookie("refresh_token", data.data.refresh_token)
+                    Swal.fire(data.msg);
+                }
+                console.log(data)
+            });
+        });
+    </script>
+</section>
+</body>
+</html>
