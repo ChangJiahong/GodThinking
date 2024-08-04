@@ -1,6 +1,8 @@
 package com.shch.a4blog.web
 
+import com.shch.a4blog.model.domain.GtMd
 import com.shch.a4blog.service.IAccountService
+import com.shch.a4blog.service.IMdService
 import com.shch.starterwebext.model.vm.Rest
 import com.shch.starterwebext.model.vm.Rest.R.ok
 import jakarta.servlet.http.HttpServletResponse
@@ -14,7 +16,7 @@ import java.security.Principal
 
 @Controller
 @RequestMapping("/admin")
-class AdminController(val accountService: IAccountService) {
+class AdminController(val accountService: IAccountService, val mdService: IMdService) {
 
     @GetMapping("", "/")
     fun adminIndex(principal: Principal): String {
@@ -22,19 +24,28 @@ class AdminController(val accountService: IAccountService) {
         return "admin/majestic/index"
     }
 
-    @GetMapping("edit-md")
-    fun editMd():String{
+    @GetMapping("edit-md", "edit-md/{mdId}")
+    fun editMd(@PathVariable mdId: String?, model: Model): String {
+        if (!mdId.isNullOrBlank()) {
+            val md = mdService.findVOByMdId(mdId)
+            model.addAttribute("md", md)
+        }
         return "admin/majestic/pages/md/edit-md"
     }
 
     @GetMapping("manger-md")
-    fun mangerMd():String{
+    fun mangerMd(): String {
         return "admin/majestic/pages/md/manger-md"
     }
 
     @GetMapping("manger-pages")
-    fun mangerPages():String{
+    fun mangerPages(): String {
         return "admin/majestic/pages/pages/manger-pages"
+    }
+
+    @GetMapping("manger-posts")
+    fun mangerPosts(): String {
+        return "admin/majestic/pages/posts/manger-posts"
     }
 
 
@@ -63,7 +74,7 @@ class AdminController(val accountService: IAccountService) {
 
     @PostMapping("/put-md")
     @ResponseBody
-    fun putMd(@RequestParam title:String,@RequestParam mdContent:String):Rest{
+    fun putMd(@RequestParam title: String, @RequestParam mdContent: String): Rest {
         return Rest.ok()
     }
 

@@ -24,10 +24,11 @@
                             <div class="form-group row">
                                 <label for="title" class="col-sm-0 col-form-label">标题</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="标题">
+                                    <input type="text" th:value="${md} ? ${md.title}:''" class="form-control" id="title"
+                                           name="title" placeholder="标题">
                                 </div>
                             </div>
-                            <input type="text" id="md-content" name="mdContent" style="display: none;">
+                            <input type="text" th:value="${md} ? ${md.content}:'##'" id="md-content" name="mdContent" style="display: none;">
                             <button type="button" id="put" class="btn btn-primary mr-2"> Submit</button>
                         </form>
                     </div>
@@ -71,7 +72,7 @@
         const editor = new bytemd.Editor({
             target: document.getElementById('md-editor'),
             props: {
-                value: '# heading\n\nparagraph\n\n> blockquote',
+                value: mdContent.val(),
                 plugins,
             },
         })
@@ -81,11 +82,11 @@
             editor.$set({value: e.detail.value})
         })
         $("#put").click(function () {
-            if (title.val().trim().length===0){
+            if (title.val().trim().length === 0) {
                 Swal.fire("标题不能为空");
                 return
             }
-            if (mdContent.val().trim().length===0){
+            if (mdContent.val().trim().length === 0) {
                 Swal.fire("内容不能为空");
                 return
             }

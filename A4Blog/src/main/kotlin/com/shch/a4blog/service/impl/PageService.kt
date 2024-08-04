@@ -10,9 +10,9 @@ import com.shch.starterwebext.model.mapper.go
 import org.springframework.stereotype.Service
 
 @Service
-class PageService(val pageMapper: GtPageMapper): IPageService {
+class PageService(val pageMapper: GtPageMapper) : IPageService {
     override fun getPageVOByPageName(pageName: String): PageVO {
-       val page: GtPage = pageMapper.op{selectPageByPageName(pageName)}.orElseThrow()
+        val page: GtPage = pageMapper.op { selectPageByPageName(pageName) }.orElseThrow()
         return page.go()
     }
 }

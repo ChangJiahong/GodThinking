@@ -1,6 +1,9 @@
 package com.shch.a4blog.model.domain
 
 import com.baomidou.mybatisplus.annotation.TableName
+import com.shch.a4blog.model.struct.MdStruct
+import com.shch.a4blog.model.struct.PageStruct
+import com.shch.starterwebext.annotation.AutoStruct
 import java.io.Serializable
 import java.util.*
 
@@ -8,6 +11,7 @@ import java.util.*
  * @TableName GT_MD
  */
 @TableName(value = "GT_MD")
+@AutoStruct(MdStruct::class)
 class GtMd : Serializable {
     var id: Long? = null
 

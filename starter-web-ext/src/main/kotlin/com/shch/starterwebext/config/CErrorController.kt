@@ -1,11 +1,11 @@
 package com.shch.starterwebext.config
 
-import org.springframework.boot.autoconfigure.web.ServerProperties
-import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController
-import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.boot.autoconfigure.web.ServerProperties
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController
 import org.springframework.boot.web.error.ErrorAttributeOptions
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,6 +14,8 @@ import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.context.request.ServletWebRequest
 import org.springframework.web.servlet.ModelAndView
+import java.util.*
+
 /**
  *
  * @des
@@ -45,6 +47,18 @@ class CErrorController(
     }
 
     override fun errorHtml(request: HttpServletRequest?, response: HttpServletResponse?): ModelAndView {
-        return super.errorHtml(request, response)
+        val status = this.getStatus(request)
+        val model = Collections.unmodifiableMap(
+            this.getErrorAttributes(
+                request,
+                this.getErrorAttributeOptions(request, MediaType.TEXT_HTML)
+            )
+        )
+        response!!.status = status.value()
+        val errorViewName = when (status.value()) {
+            404, 500 -> "error/${status.value()}"
+            else -> "error/error"
+        }
+        return ModelAndView(errorViewName, model)
     }
 }
