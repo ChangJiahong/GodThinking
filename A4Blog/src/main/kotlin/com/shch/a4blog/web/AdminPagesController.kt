@@ -16,4 +16,7 @@ class AdminPagesController {
 
     @GetMapping("/typography")
     fun typography():String = "admin/majestic/pages/ui-features/typography"
+
+    @GetMapping("/basic-table")
+    fun basicTable():String = "admin/majestic/pages/tables/basic-table"
 }
