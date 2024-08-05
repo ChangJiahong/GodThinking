@@ -37,9 +37,14 @@ class AdminController(val accountService: IAccountService, val mdService: IMdSer
 
     @GetMapping("manger-md")
     fun mangerMd(model: Model): String {
-        val mds = mdService.findVO()
-        model.addAttribute("mds", mds)
         return "admin/majestic/pages/md/manger-md"
+    }
+
+    @PostMapping("mds")
+    @ResponseBody
+    fun getMds(@RequestParam(defaultValue = "0") offset: Int, @RequestParam(defaultValue = "10") limit: Int): Rest {
+        val mds = mdService.findVO()
+        return Rest.ok(mds)
     }
 
     @GetMapping("manger-pages")

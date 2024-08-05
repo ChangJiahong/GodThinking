@@ -3,6 +3,10 @@
       layout:decorate="~{admin/majestic/layout}">
 <body>
 <section layout:fragment="main">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/bootstrap-table.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/bootstrap-table.min.js"></script>
+
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title"> Markdown管理 </h3>
@@ -20,65 +24,30 @@
                     <div class="card-body">
                         <h4 class="card-title">Hoverable Table</h4>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered text-center"
+                                   id="table"
+                                   data-toggle="table"
+                                   data-pagination-parts=["pageSize","pageList"]
+                                   data-method="post"
+                                   data-url="/admin/mds"
+                                   data-side-pagination="server"
+                                   data-response-handler="responseHandler"
+                                   data-resizable="true"
+                                   data-pagination="true">
                                 <thead>
                                 <tr class="text-center">
-                                    <th>#</th>
-                                    <th>MD Id</th>
-                                    <th>标题</th>
-                                    <th>内容</th>
-                                    <th>修改时间</th>
-                                    <th>创建时间</th>
-                                    <th>操作</th>
+                                    <th data-formatter="detailFormatter" >#</th>
+                                    <th data-field="mdId" data-formatter="mdIdFormatter">MD Id</th>
+                                    <th data-field="title" >标题</th>
+                                    <th data-field="content" data-formatter="contentFormatter">内容</th>
+                                    <th data-field="updateTime">修改时间</th>
+                                    <th data-field="createTime">创建时间</th>
+                                    <th data-formatter="operateFormatter">操作</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <th:block th:each="md:${mds}">
-                                    <tr class="text-center">
-                                        <td th:text="${mdStat.index+1}"></td>
-                                        <td>
-                                            <a th:href="'/admin/edit-md?mdId='+${md.mdId}" th:text="${md.mdId}"></a>
-                                        </td>
-                                        <td th:text="${md.title}"></td>
-                                        <td th:text="${md.content}"></td>
-                                        <td th:text="${md.updateTime}"></td>
-                                        <td th:text="${md.createTime}"></td>
-                                        <td>
-                                            <button type="button" class="btn btn-dark btn-icon-text" th:onclick="onEdit([[${md.mdId}]])"> 编辑 <i
-                                                    class="mdi mdi-file-check btn-icon-append"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-warning btn-icon-text"> 删除 <i
-                                                    class="mdi mdi-delete-forever btn-icon-append"></i>
-                                            </button>
-                                            <!--                                        <button type="button" class="btn btn-warning btn-icon-text">-->
-                                            <!--                                            <i class="mdi mdi-reload btn-icon-prepend"></i> Reset-->
-                                            <!--                                        </button>-->
-                                        </td>
-                                    </tr>
-                                </th:block>
-                                </tbody>
                             </table>
                         </div>
 
-                        <div class="mt-2">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -86,9 +55,43 @@
     </div>
 
     <script>
+        $(function() {
+            $('#table').bootstrapTable()
+        })
         // https://examples.bootstrap-table.com/index.html?bootstrap4#options/pagination-load-more.html
-        function onEdit(mdId){
-            window.location.href = "/admin/edit-md?mdId="+mdId
+        function onEdit(mdId) {
+            window.location.href = "/admin/edit-md?mdId=" + mdId
+        }
+
+        function detailFormatter(value, row, index) {
+            return index + 1
+        }
+        function mdIdFormatter(value, row, index) {
+            return '<a href="/admin/edit-md?mdId='+row['mdId']+'" >'+value+'</a>'
+        }
+        function contentFormatter(value, row, index) {
+            return value.substring(0,10)+"..."
+        }
+        function operateFormatter(value, row, index) {
+            return [
+                '<button type="button" class="btn btn-dark btn-icon-text" onclick="onEdit('+row['mdId']+')">编辑' ,
+                '<i class="mdi mdi-file-check btn-icon-append"></i>' ,
+                '</button>      ' ,
+                '<button type="button" class="btn btn-warning btn-icon-text">删除' ,
+                '<i class="mdi mdi-delete-forever btn-icon-append"></i>' ,
+                '</button>'
+            ].join('')
+        }
+
+        function responseHandler(res) {
+            let row = {}
+            if (res.isOk) {
+                row['total'] = 100
+                row['rows'] = res.data
+                return row
+            } else {
+                return row
+            }
         }
 
     </script>
