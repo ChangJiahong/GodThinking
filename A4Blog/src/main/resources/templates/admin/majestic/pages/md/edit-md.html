@@ -28,7 +28,8 @@
                                            name="title" placeholder="标题">
                                 </div>
                             </div>
-                            <input type="text" th:value="${md} ? ${md.content}:'##'" id="md-content" name="mdContent" style="display: none;">
+                            <input type="text" th:value="${md} ? ${md.mdId}:''" id="md-id" name="mdId" style="display: none;">
+                            <textarea type="text" th:text="${md} ? ${md.content}:'##'" id="md-content" name="mdContent" style="display: none;"></textarea>
                             <button type="button" id="put" class="btn btn-primary mr-2"> Submit</button>
                         </form>
                     </div>
@@ -64,9 +65,16 @@
     <script src="/assets/md/plugin-gfm-1.21.0.umd.js.js"></script>
     <!--    <script src="https://cdn.bootcss.com/jquery.form/4.2.2/jquery.form.js"></script>-->
     <script>
+        // let p=location.pathname.split("/admin/edit-md").slice(-1)[0].replace(/^\/|\/$/g, '');
 
+        var params = new URLSearchParams(location.search)
         let mdContent = $("#md-content");
         let title = $("#title")
+        let mdId = $("#md-id")
+
+        if (params.get('mdId')!=null&&params.get('mdId').length!==0 && mdId.val().length===0){
+            Swal.fire("未查到Id="+params.get('mdId')+"的Markdown");
+        }
 
         const plugins = [bytemdPluginGfm()]
         const editor = new bytemd.Editor({
@@ -79,6 +87,8 @@
 
         editor.$on('change', (e) => {
             mdContent.val(e.detail.value)
+            // console.log(e.detail.value);
+            // console.log(mdContent.val());
             editor.$set({value: e.detail.value})
         })
         $("#put").click(function () {
@@ -97,7 +107,11 @@
                 } else {
                     // $.cookie("Authorization", "bearer "+data.data.access_token)
                     // $.cookie("refresh_token", data.data.refresh_token)
-                    Swal.fire(data.msg);
+                    Swal.fire(data.msg).then((isConfirm)=>{
+                        if (isConfirm.value){
+                            window.location.href = "/admin/manger-md"
+                        }
+                    });
                 }
                 console.log(data)
             });

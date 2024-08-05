@@ -4,7 +4,9 @@ import com.shch.a4blog.model.domain.GtMd
 import com.shch.a4blog.service.IAccountService
 import com.shch.a4blog.service.IMdService
 import com.shch.starterwebext.model.vm.Rest
+import com.shch.starterwebext.model.vm.Rest.R.failed
 import com.shch.starterwebext.model.vm.Rest.R.ok
+import com.shch.starterwebext.model.vm.error.SystemError
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -24,8 +26,8 @@ class AdminController(val accountService: IAccountService, val mdService: IMdSer
         return "admin/majestic/index"
     }
 
-    @GetMapping("edit-md", "edit-md/{mdId}")
-    fun editMd(@PathVariable mdId: String?, model: Model): String {
+    @GetMapping("edit-md")
+    fun editMd(mdId: String?, model: Model): String {
         if (!mdId.isNullOrBlank()) {
             val md = mdService.findVOByMdId(mdId)
             model.addAttribute("md", md)
@@ -34,7 +36,9 @@ class AdminController(val accountService: IAccountService, val mdService: IMdSer
     }
 
     @GetMapping("manger-md")
-    fun mangerMd(): String {
+    fun mangerMd(model: Model): String {
+        val mds = mdService.findVO()
+        model.addAttribute("mds", mds)
         return "admin/majestic/pages/md/manger-md"
     }
 
@@ -74,8 +78,17 @@ class AdminController(val accountService: IAccountService, val mdService: IMdSer
 
     @PostMapping("/put-md")
     @ResponseBody
-    fun putMd(@RequestParam title: String, @RequestParam mdContent: String): Rest {
-        return Rest.ok()
+    fun putMd(mdId: String?, @RequestParam title: String, @RequestParam mdContent: String): Rest {
+        var re = false
+        if (mdId.isNullOrBlank()) {
+            // insert
+            re = mdService.newMd(title, mdContent)
+        } else {
+            // update
+            re = mdService.updateMd(mdId, title, mdContent)
+        }
+
+        return if (re) Rest.ok() else Rest.failed(SystemError.ServerError("保存失败"))
     }
 
     @GetMapping("te")

@@ -16,4 +16,6 @@ interface MdStruct {
         Mapping(source = "updateTime", target = "updateTime", dateFormat = "yyyy-MM-dd"),
     )
     fun toModel(gtMd: GtMd): MdVO
+
+    fun toList(gtMds:List<GtMd>):List<MdVO>
 }
