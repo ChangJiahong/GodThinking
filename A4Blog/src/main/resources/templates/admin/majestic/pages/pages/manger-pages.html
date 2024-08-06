@@ -31,8 +31,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Hoverable Table</h4>
-                        <div class="mb-1">
-                            <button type="button" class="btn btn-primary"> 新建
+                        <div id="toolbar">
+                            <button type="button" onclick="showEditDialog()" class="btn btn-primary"> 新建
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -41,19 +41,21 @@
                                    data-toggle="table"
                                    data-pagination-parts=["pageSize","pageList"]
                                    data-method="post"
-                                   data-url="/admin/mds"
+                                   data-toolbar="#toolbar"
+                                   data-url="/admin/pages"
                                    data-side-pagination="server"
-                                   data-pagination="true"
-                            >
+                                   data-response-handler="responseHandler"
+                                   data-resizable="true"
+                                   data-pagination="true">
                                 <thead>
                                 <tr class="text-center">
-                                    <th data-field="id">#</th>
-                                    <th>页面名称</th>
-                                    <th>MD Id</th>
+                                    <th data-formatter="detailFormatter">#</th>
+                                    <th data-field="pageName">页面名称</th>
+                                    <th data-field="mdId">MD Id</th>
                                     <th>状态</th>
-                                    <th>修改时间</th>
-                                    <th>创建时间</th>
-                                    <th>操作</th>
+                                    <th data-field="createTime">修改时间</th>
+                                    <th data-field="createTime">创建时间</th>
+                                    <th data-formatter="operateFormatter">操作</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -64,23 +66,98 @@
         </div>
     </div>
 
+    <div id="myModal" class="modal fade " data-bs-backdrop="static" tabindex="-1"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-body p-1 ">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">新建页面</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="forms-sample">
+                                <div class="form-group">
+                                    <label for="pageName">页面名称</label>
+                                    <input type="text" class="form-control" id="pageName" placeholder="页面名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mdId">Markdown ID</label>
+                                    <input type="text" class="form-control" id="mdId" placeholder="Markdown ID">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
+        function showEditDialog() {
+            var myModal = new bootstrap.Modal(document.getElementById('myModal'))
 
+            myModal.show()
 
-        $("#put").click(function () {
+        }
 
-            $("#md_form").ajaxSubmit(function (data) {
-                // alert(data.Message);
-                if (data.code !== 200) {
-                    Swal.fire(data.msg);
-                } else {
-                    // $.cookie("Authorization", "bearer "+data.data.access_token)
-                    // $.cookie("refresh_token", data.data.refresh_token)
-                    Swal.fire(data.msg);
-                }
-                console.log(data)
-            });
-        });
+        function onEdit(mdId) {
+            // window.location.href = "/admin/edit-md?mdId=" + mdId
+        }
+
+        function detailFormatter(value, row, index) {
+            return index + 1
+        }
+
+        function mdIdFormatter(value, row, index) {
+            return '<a href="/admin/edit-md?mdId=' + row['mdId'] + '" >' + value + '</a>'
+        }
+
+        function contentFormatter(value, row, index) {
+            return value.substring(0, 20) + "..."
+        }
+
+        function operateFormatter(value, row, index) {
+            return [
+                '<button type="button" class="btn btn-dark btn-icon-text" onclick="onEdit(\'' + row['mdId'] + '\')">编辑',
+                '<i class="mdi mdi-file-check btn-icon-append"></i>',
+                '</button>      ',
+                '<button type="button" class="btn btn-warning btn-icon-text">删除',
+                '<i class="mdi mdi-delete-forever btn-icon-append"></i>',
+                '</button>'
+            ].join('')
+        }
+
+        function responseHandler(res) {
+            let row = {}
+            if (res.isOk) {
+                row['total'] = res.data.total
+                row['rows'] = res.data.records
+                return row
+            } else {
+                return row
+            }
+        }
+
+        //
+        // $("#put").click(function () {
+        //
+        //     $("#md_form").ajaxSubmit(function (data) {
+        //         // alert(data.Message);
+        //         if (data.code !== 200) {
+        //             Swal.fire(data.msg);
+        //         } else {
+        //             // $.cookie("Authorization", "bearer "+data.data.access_token)
+        //             // $.cookie("refresh_token", data.data.refresh_token)
+        //             Swal.fire(data.msg);
+        //         }
+        //         console.log(data)
+        //     });
+        // });
     </script>
 </section>
 </body>

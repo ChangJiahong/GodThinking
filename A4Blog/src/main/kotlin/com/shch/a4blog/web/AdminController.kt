@@ -1,9 +1,9 @@
 package com.shch.a4blog.web
 
 import com.shch.a4blog.model.bo.PageParams
-import com.shch.a4blog.model.domain.GtMd
 import com.shch.a4blog.service.IAccountService
 import com.shch.a4blog.service.IMdService
+import com.shch.a4blog.service.impl.PageService
 import com.shch.starterwebext.model.vm.Rest
 import com.shch.starterwebext.model.vm.Rest.R.failed
 import com.shch.starterwebext.model.vm.Rest.R.ok
@@ -19,7 +19,11 @@ import java.security.Principal
 
 @Controller
 @RequestMapping("/admin")
-class AdminController(val accountService: IAccountService, val mdService: IMdService) {
+class AdminController(
+    val accountService: IAccountService,
+    val mdService: IMdService,
+    private val pageService: PageService
+) {
 
     @GetMapping("", "/")
     fun adminIndex(principal: Principal): String {
@@ -51,6 +55,13 @@ class AdminController(val accountService: IAccountService, val mdService: IMdSer
     @GetMapping("manger-pages")
     fun mangerPages(): String {
         return "admin/majestic/pages/pages/manger-pages"
+    }
+
+    @PostMapping("pages")
+    @ResponseBody
+    fun getPages(@RequestBody pageParams: PageParams): Rest {
+        val pages = pageService.getVOPage(pageParams.offset,pageParams.limit)
+        return Rest.ok(pages)
     }
 
     @GetMapping("manger-posts")

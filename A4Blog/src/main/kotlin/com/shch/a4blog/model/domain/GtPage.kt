@@ -1,5 +1,6 @@
 package com.shch.a4blog.model.domain
 
+import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableName
 import com.shch.a4blog.model.struct.PageStruct
 import com.shch.starterwebext.annotation.AutoStruct
@@ -20,6 +21,7 @@ class GtPage : Serializable {
 
     var createTime: Date? = null
 
+    @TableField(exist = false)
     var gtMd: GtMd? = null
 
     companion object {

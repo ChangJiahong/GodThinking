@@ -3,24 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shch.a4blog.mapper.GtPageMapper">
-
     <resultMap id="BaseResultMap" type="com.shch.a4blog.model.domain.GtPage">
         <id property="id" column="ID" jdbcType="INTEGER"/>
         <result property="pageName" column="PAGE_NAME" jdbcType="VARCHAR"/>
         <result property="mdId" column="MD_ID" jdbcType="VARCHAR"/>
         <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="ResultMap" extends="BaseResultMap" type="com.shch.a4blog.model.domain.GtPage">
         <association property="gtMd" column="MD_ID"
                      javaType="com.shch.a4blog.model.domain.GtMd"
                      select="com.shch.a4blog.mapper.GtMdMapper.selectByMdId"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        ID
-        ,PAGE_NAME,MD_ID,
+        ID,
+        PAGE_NAME,
+        MD_ID,
         CREATE_TIME
     </sql>
 
-    <select id="selectPageByPageName" resultMap="BaseResultMap" parameterType="string">
+    <select id="selectPageByPageName" resultMap="ResultMap" parameterType="string">
         select * from Gt_Page where page_name = #{pageName}
     </select>
 
