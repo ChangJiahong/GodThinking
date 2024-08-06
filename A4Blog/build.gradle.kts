@@ -44,7 +44,10 @@ dependencies {
     implementation("com.h2database:h2")
     implementation("org.mapstruct:mapstruct:1.6.0.Beta1")
     kapt("org.mapstruct:mapstruct-processor:1.6.0.Beta1")
-
+    /**
+     * 雪花id
+     */
+    implementation("cn.hutool:hutool-all:5.8.11")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

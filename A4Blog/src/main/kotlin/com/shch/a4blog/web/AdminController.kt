@@ -1,5 +1,6 @@
 package com.shch.a4blog.web
 
+import com.shch.a4blog.model.bo.PageParams
 import com.shch.a4blog.model.domain.GtMd
 import com.shch.a4blog.service.IAccountService
 import com.shch.a4blog.service.IMdService
@@ -42,8 +43,8 @@ class AdminController(val accountService: IAccountService, val mdService: IMdSer
 
     @PostMapping("mds")
     @ResponseBody
-    fun getMds(@RequestParam(defaultValue = "0") offset: Int, @RequestParam(defaultValue = "10") limit: Int): Rest {
-        val mds = mdService.findVO()
+    fun getMds(@RequestBody pageParams: PageParams): Rest {
+        val mds = mdService.getVOPage(pageParams.offset.toLong(),pageParams.limit.toLong())
         return Rest.ok(mds)
     }
 

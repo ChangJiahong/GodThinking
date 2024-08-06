@@ -70,11 +70,11 @@
             return '<a href="/admin/edit-md?mdId='+row['mdId']+'" >'+value+'</a>'
         }
         function contentFormatter(value, row, index) {
-            return value.substring(0,10)+"..."
+            return value.substring(0,20)+"..."
         }
         function operateFormatter(value, row, index) {
             return [
-                '<button type="button" class="btn btn-dark btn-icon-text" onclick="onEdit('+row['mdId']+')">编辑' ,
+                '<button type="button" class="btn btn-dark btn-icon-text" onclick="onEdit(\''+row['mdId']+'\')">编辑' ,
                 '<i class="mdi mdi-file-check btn-icon-append"></i>' ,
                 '</button>      ' ,
                 '<button type="button" class="btn btn-warning btn-icon-text">删除' ,
@@ -86,8 +86,8 @@
         function responseHandler(res) {
             let row = {}
             if (res.isOk) {
-                row['total'] = 100
-                row['rows'] = res.data
+                row['total'] = res.data.total
+                row['rows'] = res.data.records
                 return row
             } else {
                 return row
