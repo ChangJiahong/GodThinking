@@ -13,6 +13,7 @@ import com.shch.a4blog.model.vo.PageVO
 import com.shch.a4blog.service.IPageService
 import com.shch.starterwebext.model.mapper.go
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class PageService(val pageMapper: GtPageMapper) : IPageService {
@@ -30,5 +31,14 @@ class PageService(val pageMapper: GtPageMapper) : IPageService {
             it.go()
         }
         return voPage
+    }
+
+    override fun createPage(pageName: String, mdId: String): Boolean {
+        val r=pageMapper.insert(GtPage().apply {
+            this.pageName = pageName
+            this.mdId = mdId
+            this.createTime = Date()
+        })
+        return r>0
     }
 }

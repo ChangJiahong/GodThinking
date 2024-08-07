@@ -8,4 +8,5 @@ interface IPageService {
     fun getPageVOByPageName(pageName: String): PageVO
 
     fun getVOPage(offset: Long, limit: Long): IPage<PageVO>
+    fun createPage(pageName: String, mdId: String): Boolean
 }

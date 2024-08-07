@@ -77,20 +77,20 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="forms-sample">
+                            <form id="put-page-form" class="forms-sample" action="/admin/put-page" method="post">
                                 <div class="form-group">
                                     <label for="pageName">页面名称</label>
-                                    <input type="text" class="form-control" id="pageName" placeholder="页面名称">
+                                    <input type="text" class="form-control" id="pageName" name="pageName" placeholder="页面名称">
                                 </div>
                                 <div class="form-group">
                                     <label for="mdId">Markdown ID</label>
-                                    <input type="text" class="form-control" id="mdId" placeholder="Markdown ID">
+                                    <input type="text" class="form-control" id="mdId" name="mdId" placeholder="Markdown ID">
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button id="put-page" type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -98,8 +98,9 @@
         </div>
     </div>
     <script>
+        var myModal = new bootstrap.Modal(document.getElementById('myModal'))
+
         function showEditDialog() {
-            var myModal = new bootstrap.Modal(document.getElementById('myModal'))
 
             myModal.show()
 
@@ -144,20 +145,22 @@
         }
 
         //
-        // $("#put").click(function () {
-        //
-        //     $("#md_form").ajaxSubmit(function (data) {
-        //         // alert(data.Message);
-        //         if (data.code !== 200) {
-        //             Swal.fire(data.msg);
-        //         } else {
-        //             // $.cookie("Authorization", "bearer "+data.data.access_token)
-        //             // $.cookie("refresh_token", data.data.refresh_token)
-        //             Swal.fire(data.msg);
-        //         }
-        //         console.log(data)
-        //     });
-        // });
+        $("#put-page").click(function () {
+
+            $("#put-page-form").ajaxSubmit(function (data) {
+                // alert(data.Message);
+                if (data.code !== 200) {
+                    Swal.fire(data.msg);
+                } else {
+
+                    Swal.fire(data.msg).then((value)=>{
+                        myModal.hide()
+                        $('#table').bootstrapTable("refresh")
+                    });
+
+                }
+            });
+        });
     </script>
 </section>
 </body>

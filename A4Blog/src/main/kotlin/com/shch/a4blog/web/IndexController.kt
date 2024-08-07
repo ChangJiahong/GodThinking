@@ -3,19 +3,21 @@ package com.shch.a4blog.web
 import com.shch.a4blog.model.vm.ArchiveVO
 import com.shch.a4blog.model.vm.ListPageModel
 import com.shch.a4blog.model.vm.PostVO
+import com.shch.a4blog.service.IMenuService
 import com.shch.a4blog.service.IPageService
 import com.shch.a4blog.service.impl.PageService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping
-class IndexController(val pageService: IPageService) {
+class IndexController(val pageService: IPageService,val menuService: IMenuService) {
     @GetMapping("/")
     fun index(model: Model): String {
-
+        menuService.getMenusByU()
         val content = pageService.getPageVOByPageName("index")
 
         model.addAttribute("title", "A4")
@@ -48,5 +50,11 @@ class IndexController(val pageService: IPageService) {
 
         model.addAttribute("page", listPageModel)
         return "/themes/A4/list"
+    }
+
+
+    @GetMapping("/{path}")
+    fun toPage(model: Model,@PathVariable path:String): String {
+        return "/error/500"
     }
 }
