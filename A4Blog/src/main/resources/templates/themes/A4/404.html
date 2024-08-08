@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{themes/A4/fragment/head}"></div>
+
+
+<body>
+<script src="/js/darkmode-js.min.js"></script>
+<script>
+    const options = {
+        bottom: '53px', // default: '32px'
+        right: 'unset', // default: '32px'
+        left: '42px', // default: 'unset'
+        time: '0.3s', // default: '0.3s'
+        mixColor: '#fff', // default: '#fff'
+        backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+        buttonColorDark: '#100f2c',  // default: '#100f2c'
+        buttonColorLight: '#fff', // default: '#fff'
+        saveInCookies: true, // default: true,
+        label: '🌓', // default: ''
+        autoMatchOsTheme: true // default: true
+    }
+    const darkmode = new Darkmode(options);
+    darkmode.showWidget();
+</script>
+
+
+<div class="left-toc-container">
+    <nav id="toc" class="bs-docs-sidebar"></nav>
+</div>
+
+<div class="paper">
+
+    <div class="shadow-drop-2-top paper-main">
+
+        <div th:replace="~{themes/A4/fragment/header}"></div>
+
+        <div class="content">
+
+            <h1>内容没有找到</h1>
+
+        </div>
+
+
+        <div th:replace="~{themes/A4/fragment/footer::footer(false)}"></div>
+    </div>
+
+
+</div>
+</body>
+</html>

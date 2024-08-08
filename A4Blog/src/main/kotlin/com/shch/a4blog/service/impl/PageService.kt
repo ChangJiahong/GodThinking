@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.kotlin.KtQueryChainWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.shch.a4blog.mapper.GtPageMapper
 import com.shch.a4blog.mapper.op
+import com.shch.a4blog.mapper.query
 import com.shch.a4blog.model.domain.GtMd
 import com.shch.a4blog.model.domain.GtPage
 import com.shch.a4blog.model.vo.MdVO
@@ -17,9 +18,9 @@ import java.util.*
 
 @Service
 class PageService(val pageMapper: GtPageMapper) : IPageService {
-    override fun getPageVOByPageName(pageName: String): PageVO {
-        val page: GtPage = pageMapper.op { selectPageByPageName(pageName) }.orElseThrow()
-        return page.go()
+    override fun getPageVOByPageName(pageName: String): PageVO? {
+        val page: GtPage? = pageMapper.selectPageByPageName(pageName)
+        return page?.go()
     }
 
     override fun getVOPage(offset: Long, limit: Long): IPage<PageVO> {

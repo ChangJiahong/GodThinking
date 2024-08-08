@@ -1,6 +1,8 @@
 package com.shch.a4blog.model.domain
 
 import com.baomidou.mybatisplus.annotation.TableName
+import com.shch.a4blog.model.struct.MenuStruct
+import com.shch.starterwebext.annotation.AutoStruct
 import java.io.Serializable
 import java.util.*
 
@@ -8,6 +10,7 @@ import java.util.*
  * @TableName GT_MENU
  */
 @TableName(value = "GT_MENU")
+@AutoStruct(MenuStruct::class)
 class GtMenu : Serializable {
     var id: Long? = null
 
@@ -15,7 +18,7 @@ class GtMenu : Serializable {
 
     var menuName: String? = null
 
-    var pageId: String? = null
+    var pagePath: String? = null
 
     var createTime: Date? = null
 

@@ -8,12 +8,12 @@
             <id property="id" column="ID" jdbcType="BIGINT"/>
             <result property="uid" column="UID" jdbcType="VARCHAR"/>
             <result property="menuName" column="MENU_NAME" jdbcType="VARCHAR"/>
-            <result property="pageId" column="PAGE_ID" jdbcType="VARCHAR"/>
+            <result property="pagePath" column="PAGE_PATH" jdbcType="VARCHAR"/>
             <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         ID,UID,MENU_NAME,
-        PAGE_ID,CREATE_TIME
+        PAGE_PATH,CREATE_TIME
     </sql>
 </mapper>

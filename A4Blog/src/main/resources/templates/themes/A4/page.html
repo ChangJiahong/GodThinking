@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{themes/A4/fragment/head}"></div>
+
+
+<body>
+<script src="/js/darkmode-js.min.js"></script>
+<script>
+    const options = {
+        bottom: '53px', // default: '32px'
+        right: 'unset', // default: '32px'
+        left: '42px', // default: 'unset'
+        time: '0.3s', // default: '0.3s'
+        mixColor: '#fff', // default: '#fff'
+        backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+        buttonColorDark: '#100f2c',  // default: '#100f2c'
+        buttonColorLight: '#fff', // default: '#fff'
+        saveInCookies: true, // default: true,
+        label: '🌓', // default: ''
+        autoMatchOsTheme: true // default: true
+    }
+    const darkmode = new Darkmode(options);
+    darkmode.showWidget();
+</script>
+
+
+<div class="left-toc-container">
+    <nav id="toc" class="bs-docs-sidebar"></nav>
+</div>
+
+<div class="paper">
+
+    <div class="shadow-drop-2-top paper-main">
+
+        <div th:replace="~{themes/A4/fragment/header}"></div>
+
+        <div class="content">
+            <div id="md-viewer"></div>
+
+            <textarea type="hidden" id="mdContent"  th:text="${page.content}" style="display: none;"></textarea>
+
+        </div>
+
+
+        <div th:replace="~{themes/A4/fragment/footer::footer(false)}"></div>
+    </div>
+
+
+</div>
+<link rel="stylesheet" href="/assets/md/index.css"/>
+<link rel="stylesheet" href="/assets/md/github-markdown.css"/>
+<script>
+    let process = {
+        env: {
+            NODE_ENV: "production"
+        }
+    }
+
+</script>
+<script src="/assets/md/bytemd-1.21.0.umd.js.js"></script>
+<script src="/assets/md/plugin-gfm-1.21.0.umd.js.js"></script>
+<script>
+    const plugins = [bytemdPluginGfm()]
+
+    const mdContent = $("#mdContent")
+
+    const editor = new bytemd.Viewer({
+        target: document.getElementById('md-viewer'), // DOM to render
+        props: {
+            value: mdContent.val(),
+            plugins,
+        },
+    })
+    editor.$on('change', (e) => {
+        // mdContent.val(e.detail.value)
+        console.log(e.detail.value);
+        // console.log(mdContent.val());
+        editor.$set({value: e.detail.value})
+    })
+</script>
+</body>
+</html>

@@ -47,9 +47,9 @@
             <a class="index-logo" href="/">Nino</a>
             <div style="margin-bottom: 12px;">
                 🏃首页
-                &nbsp / &nbsp<a href="/list/">⛰️文章</a>
-                &nbsp / &nbsp<a href="/about/">🌕关于</a>
-                &nbsp / &nbsp<a href="/now/">📅Now</a>
+                &nbsp / &nbsp<a href="/list">⛰️文章</a>
+                &nbsp / &nbsp<a href="/about">🌕关于</a>
+                &nbsp / &nbsp<a href="/now">📅Now</a>
             </div>
         </div>
 
@@ -57,7 +57,7 @@
             <div class="post-md">
                 <link rel="stylesheet" type="text/css"
                       href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css">
-                <input type="hidden" id="mdContent"  th:value="${pageVO.content}" />
+                <textarea type="hidden" id="mdContent"  th:text="${pageVO.content}" style="display: none;"></textarea>
                 <div class=".article-gallery" id="content">
 
                     <script>
