@@ -5,24 +5,17 @@
 <mapper namespace="com.shch.a4blog.mapper.GtPostMapper">
 
     <resultMap id="BaseResultMap" type="com.shch.a4blog.model.domain.GtPost">
-        <id property="id" column="ID" jdbcType="BIGINT"/>
-        <result property="postId" column="POST_ID" jdbcType="VARCHAR"/>
-        <result property="title" column="TITLE" jdbcType="VARCHAR"/>
-        <result property="mdId" column="MD_ID" jdbcType="VARCHAR"/>
-        <result property="enable" column="ENABLE" jdbcType="INTEGER"/>
-        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
-        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
-    </resultMap>
-
-    <resultMap id="ResultMap" extends="BaseResultMap" type="com.shch.a4blog.model.domain.GtPage">
-        <association property="gtMd" column="MD_ID"
-                     javaType="com.shch.a4blog.model.domain.GtMd"
-                     select="com.shch.a4blog.mapper.GtMdMapper.selectByMdId"/>
+            <id property="id" column="ID" jdbcType="BIGINT"/>
+            <result property="postId" column="POST_ID" jdbcType="VARCHAR"/>
+            <result property="title" column="TITLE" jdbcType="VARCHAR"/>
+            <result property="mdId" column="MD_ID" jdbcType="VARCHAR"/>
+            <result property="enable" column="ENABLE" jdbcType="INTEGER"/>
+            <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        ID,
-          POST_ID,TITLE,
+        ID,POST_ID,TITLE,
         MD_ID,ENABLE,UPDATE_TIME,
         CREATE_TIME
     </sql>

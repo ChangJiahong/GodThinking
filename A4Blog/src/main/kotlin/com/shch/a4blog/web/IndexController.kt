@@ -2,9 +2,10 @@ package com.shch.a4blog.web
 
 import com.shch.a4blog.model.vm.ArchiveVO
 import com.shch.a4blog.model.vm.ListPageModel
-import com.shch.a4blog.model.vm.PostVO
+import com.shch.a4blog.model.vo.PostVO
 import com.shch.a4blog.service.IMenuService
 import com.shch.a4blog.service.IPageService
+import com.shch.a4blog.service.IPostService
 import com.shch.a4blog.service.impl.PageService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpRequest
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping
-class IndexController(val pageService: IPageService, val menuService: IMenuService) {
+class IndexController(val pageService: IPageService,
+                      val menuService: IMenuService,
+                      val postService: IPostService) {
     @GetMapping("/")
     fun index(model: Model): String {
         val menus = menuService.getMenusByU()
@@ -29,6 +32,8 @@ class IndexController(val pageService: IPageService, val menuService: IMenuServi
 
     @GetMapping("/list")
     fun list(model: Model, httpRequest: HttpServletRequest): String {
+        val listPageModel = postService.getListPageMV()
+
         setMenus(model, httpRequest)
 
         val listPageModel = ListPageModel(
@@ -53,6 +58,11 @@ class IndexController(val pageService: IPageService, val menuService: IMenuServi
 
         model.addAttribute("page", listPageModel)
         return "/themes/A4/list"
+    }
+
+    @GetMapping("/archive/{id}")
+    fun getPost(@PathVariable id:String):String{
+        return "/themes/A4/post"
     }
 
 
