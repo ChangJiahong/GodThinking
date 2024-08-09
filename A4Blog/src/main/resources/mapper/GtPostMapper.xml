@@ -10,8 +10,34 @@
             <result property="title" column="TITLE" jdbcType="VARCHAR"/>
             <result property="mdId" column="MD_ID" jdbcType="VARCHAR"/>
             <result property="enable" column="ENABLE" jdbcType="INTEGER"/>
+            <result property="isTOP" column="IS_TOP" jdbcType="INTEGER"/>
             <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
             <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+
+            <association property="category"
+                         javaType="com.shch.a4blog.model.domain.GTEntry">
+                <result property="name" column="CATEGORY_NAME" javaType="String" />
+                <result property="value" column="CATEGORY_VALUE" javaType="String" />
+            </association>
+
+            <collection property="tags" ofType="com.shch.a4blog.model.domain.GTEntry">
+                <result property="name" column="TAG_NAME" javaType="String" />
+                <result property="value" column="TAG_VALUE" javaType="String" />
+            </collection>
+    </resultMap>
+
+    <resultMap id="ResultMap" extends="BaseResultMap" type="com.shch.a4blog.model.domain.GtPost">
+        <association property="gtMd" column="MD_ID"
+                     javaType="com.shch.a4blog.model.domain.GtMd"
+                     select="com.shch.a4blog.mapper.GtMdMapper.selectByMdId"/>
+    </resultMap>
+
+    <resultMap id="TimelinePOMap" type="com.shch.a4blog.model.po.TimelinePO">
+        <result property="name" column="timeline_name" javaType="String"/>
+
+        <collection property="posts" resultMap="BaseResultMap">
+
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -19,4 +45,49 @@
         MD_ID,ENABLE,UPDATE_TIME,
         CREATE_TIME
     </sql>
+
+
+    <select id="selectTimelinePostsList" resultMap="TimelinePOMap" parameterType="Boolean">
+        select
+            GPT.ID,
+            GPT.POST_ID,
+            TITLE,
+            MD_ID,
+            ENABLE,
+            IS_TOP,
+            GPT.UPDATE_TIME,
+            GPT.CREATE_TIME,
+            CASE WHEN TYPE='CATEGORY' THEN NAME END as CATEGORY_NAME,
+            CASE WHEN TYPE='CATEGORY' THEN VAL END as CATEGORY_VALUE,
+            CASE WHEN TYPE='TAG' THEN NAME END      as TAG_NAME,
+            CASE WHEN TYPE='TAG' THEN VAL END      as TAG_VALUE,
+            formatdatetime(GPT.CREATE_TIME,'yyyy') timeline_name
+        from GT_POST as GPT
+                 left join PUBLIC.GT_ENTRIES_POST GEP on GPT.POST_ID = GEP.POST_ID
+                 left join PUBLIC.GT_ENTRIES GE on GEP.CID = GE.CID
+        where ENABLE = 1 <if test="isTop">and IS_TOP = 1</if>  <if test="!isTop">and IS_TOP != 1</if>
+        group by timeline_name, GPT.POST_ID
+        order by GPT.CREATE_TIME desc ;
+    </select>
+
+    <select id="selectPostsList" resultMap="BaseResultMap" parameterType="Boolean">
+        select
+        GPT.ID,
+        GPT.POST_ID,
+        TITLE,
+        MD_ID,
+        ENABLE,
+        IS_TOP,
+        GPT.UPDATE_TIME,
+        GPT.CREATE_TIME,
+        CASE WHEN TYPE='CATEGORY' THEN NAME END as CATEGORY_NAME,
+        CASE WHEN TYPE='CATEGORY' THEN VAL END as CATEGORY_VALUE,
+        CASE WHEN TYPE='TAG' THEN NAME END      as TAG_NAME,
+        CASE WHEN TYPE='TAG' THEN VAL END      as TAG_VALUE,
+        from GT_POST as GPT
+        left join PUBLIC.GT_ENTRIES_POST GEP on GPT.POST_ID = GEP.POST_ID
+        left join PUBLIC.GT_ENTRIES GE on GEP.CID = GE.CID
+        where ENABLE = 1 <if test="isTop">and IS_TOP = 1</if>  <if test="!isTop">and IS_TOP != 1</if>
+        order by GPT.CREATE_TIME desc ;
+    </select>
 </mapper>

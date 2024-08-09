@@ -49,18 +49,19 @@
 
             <ul class="nav">
                 <li><a href="/">🏃首页</a></li>
-<!--                <li><i>-->
-<!--                    <a style="color: #4e7dde;" href="/list/">⛰️文章</a>-->
-<!--                </i></li>-->
-<!--                <li><a href="/works/">🌸作品</a></li>-->
-<!--                <li><a href="/message/">🔈留言</a></li>-->
-<!--                <li><a href="/tags/">📌标签</a></li>-->
-<!--                <li><a href="/categories/">🔖分类</a></li>-->
-<!--                <li><a href="/about/">🌕关于</a></li>-->
-<!--                <li><a href="/now/">📅Now</a></li>-->
+                <!--                <li><i>-->
+                <!--                    <a style="color: #4e7dde;" href="/list/">⛰️文章</a>-->
+                <!--                </i></li>-->
+                <!--                <li><a href="/works/">🌸作品</a></li>-->
+                <!--                <li><a href="/message/">🔈留言</a></li>-->
+                <!--                <li><a href="/tags/">📌标签</a></li>-->
+                <!--                <li><a href="/categories/">🔖分类</a></li>-->
+                <!--                <li><a href="/about/">🌕关于</a></li>-->
+                <!--                <li><a href="/now/">📅Now</a></li>-->
 
                 <th:block th:each="menu:${menus}">
-                    <li><a th:style="${menu.active?'color: #4e7dde;':''}" th:href="${menu.path}" th:text="${menu.name}"></a></li>
+                    <li><a th:style="${menu.active?'color: #4e7dde;':''}" th:href="${menu.path}"
+                           th:text="${menu.name}"></a></li>
                 </th:block>
 
             </ul>
@@ -73,7 +74,10 @@
                     <li>
                         <span class="archive-date"> &nbsp;&nbsp;&nbsp;TOP</span>
                         <div class="archive-main">
-                            <a class="archive-title" href="/categories/情绪/" th:text="${top.categorie}"></a> |
+                            <th:block th:if="${top.category!=null}">
+                                <a class="archive-title" th:href="'/category/'+${top.category.value}"
+                                   th:text="${top.category.name}"></a> |
+                            </th:block>
                             <a class="archive-title"
                                href="/2024/recently-written-poems-3/" th:text="${top.title}"></a>
                         </div>
@@ -83,15 +87,19 @@
                 <th:block th:each="archive:${page.archives}">
                     <!--年份[数量]-->
                     <li>
-                        <span class="year-font-color">[[${archive.name}]]
+                        <span class="year-font-color">
+                            <span th:text="${archive.name}+'['+${archive.posts.size}+']'"></span>
                             <span th:if="${archiveStat.index}==0" class="darkmode-ignore">🍃</span>
                         </span>
                     </li>
                     <th:block th:each="post:${archive.posts}">
                         <li>
-                            <span class="archive-date" th:text="'&nbsp;&nbsp;&nbsp;'+${post.publishDate}"></span>
+                            <span class="archive-date" th:text="'&nbsp;&nbsp;&nbsp;'+${post.createTime}"></span>
                             <div class="archive-main">
-                                <a class="archive-title" href="/categories/情绪/" th:text="${post.categorie}"></a> |
+                                <th:block th:if="${post.category!=null}">
+                                    <a class="archive-title" th:href="'/category/'+${post.category.value}"
+                                       th:text="${post.category.name}"></a> |
+                                </th:block>
                                 <a class="archive-title"
                                    href="/2024/recently-written-poems-3/" th:text="${post.title}"></a>
                             </div>

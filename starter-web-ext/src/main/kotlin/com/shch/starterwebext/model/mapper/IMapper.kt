@@ -18,7 +18,13 @@ inline fun <reified A,reified B> List<A>.go():List<B>{
         if (method.parameterCount!=1){
             return@forEach
         }
+        val a = method.genericParameterTypes[0]
+        if (a !is ParameterizedType){
+            return@forEach
+        }
         val mpt = method.genericParameterTypes[0] as ParameterizedType
+
+
         val methodType = mpt.actualTypeArguments[0]
         val rpt= method.genericReturnType as ParameterizedType
         val methodReturnType = rpt.actualTypeArguments[0]

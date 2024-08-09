@@ -49,6 +49,10 @@ dependencies {
      */
     implementation("cn.hutool:hutool-all:5.8.11")
 
+    implementation ("org.apache.commons:commons-lang3:3.5")
+
+    implementation ("commons-io:commons-io:2.7")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
