@@ -8,4 +8,6 @@ interface IPostService {
     fun getListPostMV(isTop:Boolean=false): List<TimeLinePostVO>
 
     fun getTopListPostVO(): List<PostVO>
+
+    fun getPostVOById(id: String): PostVO?
 }

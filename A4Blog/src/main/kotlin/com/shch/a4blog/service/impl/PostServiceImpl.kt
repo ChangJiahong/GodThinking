@@ -22,4 +22,9 @@ class PostServiceImpl(val postMapper: GtPostMapper) : IPostService {
         val gtPosts: List<GtPost> = postMapper.selectPostsList(true)
         return gtPosts.go()
     }
+
+    override fun getPostVOById(id: String): PostVO? {
+        val gtPost = postMapper.selectPostById(id)
+        return gtPost?.go()
+    }
 }

@@ -79,7 +79,7 @@
                                    th:text="${top.category.name}"></a> |
                             </th:block>
                             <a class="archive-title"
-                               href="/2024/recently-written-poems-3/" th:text="${top.title}"></a>
+                               th:href="${'/post/'+top.postId}" th:text="${top.title}"></a>
                         </div>
                     </li>
                 </th:block>
@@ -101,7 +101,7 @@
                                        th:text="${post.category.name}"></a> |
                                 </th:block>
                                 <a class="archive-title"
-                                   href="/2024/recently-written-poems-3/" th:text="${post.title}"></a>
+                                   th:href="${'/post/'+post.postId}" th:text="${post.title}"></a>
                             </div>
                         </li>
                     </th:block>

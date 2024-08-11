@@ -35,11 +35,14 @@
 
         <div th:replace="~{themes/A4/fragment/header}"></div>
 
-        <div class="content">
-            <div id="md-viewer"></div>
+        <div class="content post-main">
 
-            <textarea type="hidden" id="mdContent"  th:text="${page.content}" style="display: none;"></textarea>
+            <div class="post-md">
 
+                <div id="md-viewer"></div>
+                <textarea type="hidden" id="mdContent" th:text="${page.content}" style="display: none;"></textarea>
+
+            </div>
         </div>
 
 

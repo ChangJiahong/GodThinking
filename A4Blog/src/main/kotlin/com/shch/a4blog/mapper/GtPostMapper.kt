@@ -18,6 +18,7 @@ interface GtPostMapper : BaseMapper<GtPost> {
 
     fun selectPostsList(isTop:Boolean): List<GtPost>
 
+    fun selectPostById(postId: String): GtPost?
 }
 
 

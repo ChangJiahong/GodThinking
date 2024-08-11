@@ -42,8 +42,11 @@ class IndexController(val pageService: IPageService,
         return "/themes/A4/list"
     }
 
-    @GetMapping("/archive/{id}")
-    fun getPost(@PathVariable id:String):String{
+    @GetMapping("/post/{id}")
+    fun getPost(@PathVariable id:String,model: Model,httpRequest: HttpServletRequest):String{
+        val postVO = postService.getPostVOById(id) ?: "/themes/A4/404"
+        setMenus(model, httpRequest)
+        model.addAttribute("post", postVO)
         return "/themes/A4/post"
     }
 
