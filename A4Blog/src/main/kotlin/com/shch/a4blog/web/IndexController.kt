@@ -51,6 +51,20 @@ class IndexController(val pageService: IPageService,
         return "/themes/A4/post"
     }
 
+    @GetMapping("/category")
+    fun getCategorys(model: Model,httpRequest: HttpServletRequest):String{
+
+        setMenus(model, httpRequest)
+        return "/themes/A4/category"
+    }
+
+    @GetMapping("/category/{value}")
+    fun getCategory(@PathVariable value:String,model: Model,httpRequest: HttpServletRequest):String{
+
+        setMenus(model, httpRequest)
+        return "/themes/A4/category"
+    }
+
 
     @GetMapping("/{path}")
     fun toPage(model: Model, @PathVariable path: String, httpRequest: HttpServletRequest): String {

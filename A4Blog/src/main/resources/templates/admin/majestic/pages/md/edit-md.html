@@ -52,7 +52,7 @@
         </div>
     </div>
     <link rel="stylesheet" href="/assets/md/index.css"/>
-    <link rel="stylesheet" href="/assets/md/github-markdown.css"/>
+    <link rel="stylesheet" href="/styles/github.css"/>
     <script>
         let process = {
             env: {
@@ -63,6 +63,15 @@
     </script>
     <script src="/assets/md/bytemd-1.21.0.umd.js.js"></script>
     <script src="/assets/md/plugin-gfm-1.21.0.umd.js.js"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-highlight@1.21.0/dist/index.umd.js"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-breaks"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-frontmatter"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-gemoji"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-highlight-ssr"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-math"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-math-ssr"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-medium-zoom"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-mermaid"></script>
     <!--    <script src="https://cdn.bootcss.com/jquery.form/4.2.2/jquery.form.js"></script>-->
     <script>
         // let p=location.pathname.split("/admin/edit-md").slice(-1)[0].replace(/^\/|\/$/g, '');
@@ -76,7 +85,9 @@
             Swal.fire("未查到Id="+params.get('mdId')+"的Markdown");
         }
 
-        const plugins = [bytemdPluginGfm()]
+        const plugins = [bytemdPluginGfm(),bytemdPluginHighlight(),bytemdPluginBreaks(),bytemdPluginFrontmatter(),
+            bytemdPluginGemoji(),bytemdPluginMath(),bytemdPluginMediumZoom(),bytemdPluginMermaid()]
+
         const editor = new bytemd.Editor({
             target: document.getElementById('md-editor'),
             props: {

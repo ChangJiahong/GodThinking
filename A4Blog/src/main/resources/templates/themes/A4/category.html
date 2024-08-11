@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{themes/A4/fragment/head}"></div>
+
+
+<body>
+<script src="/js/darkmode-js.min.js"></script>
+<script>
+    const options = {
+        bottom: '53px', // default: '32px'
+        right: 'unset', // default: '32px'
+        left: '42px', // default: 'unset'
+        time: '0.3s', // default: '0.3s'
+        mixColor: '#fff', // default: '#fff'
+        backgroundColor: ' #e4e4e4 ',  // default: '#fff'
+        buttonColorDark: '#100f2c',  // default: '#100f2c'
+        buttonColorLight: '#fff', // default: '#fff'
+        saveInCookies: true, // default: true,
+        label: '🌓', // default: ''
+        autoMatchOsTheme: true // default: true
+    }
+    const darkmode = new Darkmode(options);
+    darkmode.showWidget();
+</script>
+
+
+<div class="left-toc-container">
+    <nav id="toc" class="bs-docs-sidebar"></nav>
+</div>
+
+<div class="paper">
+    <div class="shadow-drop-2-top paper-main">
+        <div class="header">
+            <div class="header-container">
+                <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.jpeg"
+                     width="10%"></img>
+                <div class="header-content">
+                    <a class="logo" href="/">ChangJiahong</a>
+                    <span class="description">架构师|全栈</span>
+                </div>
+            </div>
+            <ul class="nav">
+                <li><a href="/">🏃首页</a></li>
+                <th:block th:each="menu:${menus}">
+                    <li><a th:style="${menu.active?'color: #4e7dde;':''}" th:href="${menu.path}"
+                           th:text="${menu.name}"></a></li>
+                </th:block>
+            </ul>
+        </div>
+        <br>
+        <span><span class="darkmode-ignore">🔖</span><i>categories</i></span>
+
+        <ul class="">
+
+            <li class="">
+                <a href="/categories/%E5%A4%96%E8%AF%AD">外语</a>
+                <span><i>3</i></span>
+            </li>
+
+            <li class="">
+                <a href="/categories/%E6%83%85%E7%BB%AA">情绪</a>
+                <span><i>22</i></span>
+            </li>
+
+            <li class="">
+                <a href="/categories/%E5%A3%B0%E5%85%89">声光</a>
+                <span><i>18</i></span>
+            </li>
+
+            <li class="">
+                <a href="/categories/%E8%BD%AF%E4%BB%B6">软件</a>
+                <span><i>16</i></span>
+            </li>
+
+            <li class="">
+                <a href="/categories/%E6%80%9D%E8%BE%A8">思辨</a>
+                <span><i>4</i></span>
+            </li>
+
+            <li class="">
+                <a href="/categories/%E8%A1%A3%E9%A3%9F%E4%BD%8F%E8%A1%8C">衣食住行</a>
+                <span><i>2</i></span>
+            </li>
+
+            <li class="">
+                <a href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98">程序员</a>
+                <span><i>3</i></span>
+            </li>
+
+        </ul>
+
+        <div th:replace="~{themes/A4/fragment/footer::footer(false)}"></div>
+    </div>
+
+
+</div>
+</body>
+</html>
