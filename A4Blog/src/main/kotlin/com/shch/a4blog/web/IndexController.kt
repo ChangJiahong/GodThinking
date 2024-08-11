@@ -1,6 +1,7 @@
 package com.shch.a4blog.web
 
 import com.shch.a4blog.model.vm.ListPageModel
+import com.shch.a4blog.model.vo.PostVO
 import com.shch.a4blog.service.IMenuService
 import com.shch.a4blog.service.IPageService
 import com.shch.a4blog.service.IPostService
@@ -44,7 +45,7 @@ class IndexController(val pageService: IPageService,
 
     @GetMapping("/post/{id}")
     fun getPost(@PathVariable id:String,model: Model,httpRequest: HttpServletRequest):String{
-        val postVO = postService.getPostVOById(id) ?: "/themes/A4/404"
+        val postVO = postService.getPostVOById(id) ?: return "/themes/A4/404"
         setMenus(model, httpRequest)
         model.addAttribute("post", postVO)
         return "/themes/A4/post"

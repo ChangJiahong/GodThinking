@@ -39,20 +39,20 @@
             <div class="post-main-title" th:text="${post.title}">
             </div>
             <div>
-<!--                <span ><a href="/user/3562073406049581/posts">ChangJiahong </a></span>-->
+                <!--                <span ><a href="/user/3562073406049581/posts">ChangJiahong </a></span>-->
 
-                    <time datetime="2023-12-16T14:59:57.000Z" title="Sat Dec 16 2023 22:59:57 GMT+0800 (中国标准时间)"
-                          class="time" data-v-738facde="">
-                        2023-12-16
-                    </time>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         class="read-icon" data-v-738facde="">
-                        <path d="M7.90078 2.80078C4.49278 2.80078 1.74745 6.11672 0.800781 7.77469C1.74745 9.58339 4.49278 13.2008 7.90078 13.2008C11.3088 13.2008 14.0541 9.58339 15.0008 7.77469C14.0541 6.11672 11.3088 2.80078 7.90078 2.80078Z"
-                              stroke="currentColor" data-v-738facde=""></path>
-                        <circle cx="7.89922" cy="8.00078" r="2.2" stroke="currentColor" data-v-738facde=""></circle>
-                    </svg>
-                    <span class="views-count" data-v-738facde="">641</span>
-                    <span class="read-time" data-v-738facde="">
+                <time datetime="2023-12-16T14:59:57.000Z" title="Sat Dec 16 2023 22:59:57 GMT+0800 (中国标准时间)"
+                      class="time" data-v-738facde="">
+                    2023-12-16
+                </time>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                     class="read-icon" data-v-738facde="">
+                    <path d="M7.90078 2.80078C4.49278 2.80078 1.74745 6.11672 0.800781 7.77469C1.74745 9.58339 4.49278 13.2008 7.90078 13.2008C11.3088 13.2008 14.0541 9.58339 15.0008 7.77469C14.0541 6.11672 11.3088 2.80078 7.90078 2.80078Z"
+                          stroke="currentColor" data-v-738facde=""></path>
+                    <circle cx="7.89922" cy="8.00078" r="2.2" stroke="currentColor" data-v-738facde=""></circle>
+                </svg>
+                <span class="views-count" data-v-738facde="">641</span>
+                <span class="read-time" data-v-738facde="">
                         <svg width="16" height="16" viewBox="0 0 16 16"
                              fill="none" xmlns="http://www.w3.org/2000/svg"
                              data-v-738facde="" class="">
@@ -70,11 +70,29 @@
 
 
             <div class="post-md">
-
                 <div id="md-viewer"></div>
                 <textarea type="hidden" id="mdContent" th:text="${post.content}" style="display: none;"></textarea>
-
             </div>
+            <div class="post-meta">
+                <i>
+                    <span th:text="${post.createTime}">2024-08-08</span>
+                    <span>该篇文章被 nino</span>
+                    <span th:if="${!post.tags.isEmpty()}">打上标签:
+                        <th:block th:each="tag:${post.tags}">
+                            <a th:href="${'/tag/'+tag.value}" th:text="${tag.name}"></a>
+                        </th:block>
+                    </span>
+                    <span th:if="${post.category != null}">归为分类:
+                        <a th:href="${'/category/'+post.category.value}" th:text="${post.category.name}"></a>
+                    </span>
+                </i>
+            </div>
+
+            <div class="post-footer-pre-next">
+                <span>上一篇：<a href="/java/leetcode-hot-100/">Leetcode Hot 100</a></span>
+                <span class="post-footer-pre-next-last-span-right">下一篇：<a href="/2024/one-night/">惯常的一个晚上</a></span>
+            </div>
+
         </div>
 
 
@@ -84,7 +102,7 @@
 
 </div>
 <link rel="stylesheet" href="/assets/md/index.css"/>
-<link rel="stylesheet" href="/styles/dark.css"/>
+<link rel="stylesheet" href="/styles/github.css"/>
 <!--<link rel="stylesheet" href="/assets/md/github-markdown.css"/>-->
 <script>
     let process = {
@@ -100,7 +118,7 @@
 <script src="/assets/md/plugin-gfm-1.21.0.umd.js.js"></script>
 <script src="https://unpkg.com/@bytemd/plugin-highlight@1.21.0/dist/index.umd.js"></script>
 <script>
-    const plugins = [bytemdPluginGfm(),bytemdPluginHighlight()]
+    const plugins = [bytemdPluginGfm(), bytemdPluginHighlight()]
 
     const mdContent = $("#mdContent")
 
