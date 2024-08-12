@@ -1,6 +1,6 @@
 .post-md pre,
 .post-md .highlight {
-  background: #f6f8fa;
+  /*background: #2d2d2d;*/
   padding: 15px 20px;
   border-style: solid;
   border-color: #ddd;
@@ -23,7 +23,7 @@
   padding: 0 0.3em;
 }
 .post-md pre code {
-  background: none;
+  /*background: none;*/
   text-shadow: none;
   padding: 0;
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class MenuServiceImpl(val menuMapper: GtMenuMapper):IMenuService {
     override fun getMenusByU(): List<MenuVO> {
-        val mlist =menuMapper.query().list()
+        val mlist =menuMapper.query().eq(GtMenu::isShow,true).orderByAsc(GtMenu::weight).list()
         return mlist.go()
     }
 }

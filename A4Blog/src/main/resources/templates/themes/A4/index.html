@@ -5,8 +5,6 @@
 
 <body>
 <script src="/js/darkmode-js.min.js"></script>
-<!--<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>-->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script>
     const options = {
@@ -44,7 +42,7 @@
             <span id="targetSpan"></span>
         </div>
         <div style="text-align: left;">
-            <a class="index-logo" href="/">Nino</a>
+            <a class="index-logo" href="/">ChangJiahong</a>
             <div style="margin-bottom: 12px;">
                 🏃首页
                 &nbsp / &nbsp<a href="/list">⛰️文章</a>
@@ -55,30 +53,13 @@
 
         <div class="post-main">
             <div class="post-md">
-                <link rel="stylesheet" type="text/css"
-                      href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css">
+<!--                <link rel="stylesheet" type="text/css"-->
+<!--                      href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.7.0/hint.min.css">-->
                 <textarea type="hidden" id="mdContent"  th:text="${pageVO.content}" style="display: none;"></textarea>
-                <div class=".article-gallery" id="content">
+                <div class=".article-gallery" id="md-viewer">
 
-                    <script>
-                        // 1. 调用 parse 方法，将对应的 markdown 文本内容转译为 html 页面；
-                        const mdContent = $("#mdContent")
-                        // console.log(mdContent)
-                        let parsedHtml = marked.parse(mdContent.val());
-                        // console.log(parsedHtml)
-                        $("#content").html(parsedHtml); // 新增页面
-                        mdContent.val("")
-                        // 2. 执行 mathjax 渲染
-                        // MathJax.typeset();
-                    </script>
                 </div>
-                <script src="https://jsd.cdn.zzko.cn/npm/hexo-theme-a4@latest/source/js/lightgallery.min.js"></script>
-                <script>if ("undefined" != typeof lightGallery) {
-                    var options1 = {
-                        selector: '.gallery-item'
-                    };
-                    lightGallery(document.getElementsByClassName('.article-gallery')[0], options1);
-                }</script>
+
             </div>
 
         </div>
@@ -87,6 +68,52 @@
 
     </div>
 
+    <link rel="stylesheet" href="/assets/md/index.css"/>
+<!--    <link rel="stylesheet" href="/assets/md/github-markdown.css"/>-->
+    <link rel="stylesheet" href="/styles/github.css"/>
+    <script>
+        let process = {
+            env: {
+                NODE_ENV: "production"
+            }
+        }
+
+    </script>
+    <script src="/assets/md/bytemd-1.21.0.umd.js.js"></script>
+    <script src="/assets/md/plugin-gfm-1.21.0.umd.js.js"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-highlight@1.21.0/dist/index.umd.js"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-breaks"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-frontmatter"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-gemoji"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-highlight-ssr"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-math"></script>
+    <!--<script src="https://unpkg.com/@bytemd/plugin-math-ssr"></script>-->
+    <script src="https://unpkg.com/@bytemd/plugin-medium-zoom"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-mermaid"></script>
+    <script>
+        const plugins = [bytemdPluginGfm(),bytemdPluginHighlight(),bytemdPluginBreaks(),bytemdPluginFrontmatter(),
+            bytemdPluginGemoji(),bytemdPluginHighlightSsr(),bytemdPluginMath(),
+            bytemdPluginMediumZoom(),bytemdPluginMermaid()]
+
+        const mdContent = $("#mdContent")
+
+        const editor = new bytemd.Viewer({
+            target: document.getElementById('md-viewer'), // DOM to render
+            props: {
+                value: mdContent.val(),
+                plugins,
+            },
+        })
+        mdContent.val('')
+    </script>
+
+    <script src="https://jsd.cdn.zzko.cn/npm/hexo-theme-a4@latest/source/js/lightgallery.min.js"></script>
+    <script>if ("undefined" != typeof lightGallery) {
+        var options1 = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options1);
+    }</script>
 
     <!-- 回到顶部的按钮-->
     <div class="progress-wrap shadow-drop-2-bottom">

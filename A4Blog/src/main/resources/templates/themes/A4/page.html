@@ -1,39 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<div th:replace="~{themes/A4/fragment/head}"></div>
-
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{themes/A4/layout}">
 
 <body>
-<script src="/js/darkmode-js.min.js"></script>
-<script>
-    const options = {
-        bottom: '53px', // default: '32px'
-        right: 'unset', // default: '32px'
-        left: '42px', // default: 'unset'
-        time: '0.3s', // default: '0.3s'
-        mixColor: '#fff', // default: '#fff'
-        backgroundColor: ' #e4e4e4 ',  // default: '#fff'
-        buttonColorDark: '#100f2c',  // default: '#100f2c'
-        buttonColorLight: '#fff', // default: '#fff'
-        saveInCookies: true, // default: true,
-        label: '🌓', // default: ''
-        autoMatchOsTheme: true // default: true
-    }
-    const darkmode = new Darkmode(options);
-    darkmode.showWidget();
-</script>
 
+<section layout:fragment="main">
+        <link rel="stylesheet" href="/assets/md/index.css"/>
+        <link rel="stylesheet" href="/styles/github.css"/>
+        <script>
+                let process = {
+                        env: {
+                                NODE_ENV: "production"
+                        }
+                }
 
-<div class="left-toc-container">
-    <nav id="toc" class="bs-docs-sidebar"></nav>
-</div>
-
-<div class="paper">
-
-    <div class="shadow-drop-2-top paper-main">
-
-        <div th:replace="~{themes/A4/fragment/header}"></div>
+        </script>
+        <script src="/assets/md/bytemd-1.21.0.umd.js.js"></script>
+        <script src="/assets/md/plugin-gfm-1.21.0.umd.js.js"></script>
+        <script src="https://unpkg.com/@bytemd/plugin-highlight@1.21.0/dist/index.umd.js"></script>
+        <script src="https://unpkg.com/@bytemd/plugin-breaks"></script>
+        <script src="https://unpkg.com/@bytemd/plugin-frontmatter"></script>
+        <script src="https://unpkg.com/@bytemd/plugin-gemoji"></script>
+        <script src="https://unpkg.com/@bytemd/plugin-highlight-ssr"></script>
+        <script src="https://unpkg.com/@bytemd/plugin-math"></script>
+        <!--<script src="https://unpkg.com/@bytemd/plugin-math-ssr"></script>-->
+        <script src="https://unpkg.com/@bytemd/plugin-medium-zoom"></script>
+        <script src="https://unpkg.com/@bytemd/plugin-mermaid"></script>
 
         <div class="content post-main">
 
@@ -45,53 +37,30 @@
             </div>
         </div>
 
+        <script>
+            const plugins = [bytemdPluginGfm(),bytemdPluginHighlight(),bytemdPluginBreaks(),bytemdPluginFrontmatter(),
+                bytemdPluginGemoji(),bytemdPluginHighlightSsr(),bytemdPluginMath(),
+                bytemdPluginMediumZoom(),bytemdPluginMermaid()]
 
-        <div th:replace="~{themes/A4/fragment/footer::footer(false)}"></div>
-    </div>
+            const mdContent = $("#mdContent")
+
+            const editor = new bytemd.Viewer({
+                target: document.getElementById('md-viewer'), // DOM to render
+                props: {
+                    value: mdContent.val(),
+                    plugins,
+                },
+            })
+            editor.$on('change', (e) => {
+                // mdContent.val(e.detail.value)
+                console.log(e.detail.value);
+                // console.log(mdContent.val());
+                editor.$set({value: e.detail.value})
+            })
+        </script>
 
 
-</div>
-<link rel="stylesheet" href="/assets/md/index.css"/>
-<link rel="stylesheet" href="/styles/github.css"/>
-<script>
-    let process = {
-        env: {
-            NODE_ENV: "production"
-        }
-    }
+</section>>
 
-</script>
-<script src="/assets/md/bytemd-1.21.0.umd.js.js"></script>
-<script src="/assets/md/plugin-gfm-1.21.0.umd.js.js"></script>
-<script src="https://unpkg.com/@bytemd/plugin-highlight@1.21.0/dist/index.umd.js"></script>
-<script src="https://unpkg.com/@bytemd/plugin-breaks"></script>
-<script src="https://unpkg.com/@bytemd/plugin-frontmatter"></script>
-<script src="https://unpkg.com/@bytemd/plugin-gemoji"></script>
-<script src="https://unpkg.com/@bytemd/plugin-highlight-ssr"></script>
-<script src="https://unpkg.com/@bytemd/plugin-math"></script>
-<!--<script src="https://unpkg.com/@bytemd/plugin-math-ssr"></script>-->
-<script src="https://unpkg.com/@bytemd/plugin-medium-zoom"></script>
-<script src="https://unpkg.com/@bytemd/plugin-mermaid"></script>
-<script>
-    const plugins = [bytemdPluginGfm(),bytemdPluginHighlight(),bytemdPluginBreaks(),bytemdPluginFrontmatter(),
-        bytemdPluginGemoji(),bytemdPluginHighlightSsr(),bytemdPluginMath(),
-        bytemdPluginMediumZoom(),bytemdPluginMermaid()]
-
-    const mdContent = $("#mdContent")
-
-    const editor = new bytemd.Viewer({
-        target: document.getElementById('md-viewer'), // DOM to render
-        props: {
-            value: mdContent.val(),
-            plugins,
-        },
-    })
-    editor.$on('change', (e) => {
-        // mdContent.val(e.detail.value)
-        console.log(e.detail.value);
-        // console.log(mdContent.val());
-        editor.$set({value: e.detail.value})
-    })
-</script>
 </body>
 </html>
