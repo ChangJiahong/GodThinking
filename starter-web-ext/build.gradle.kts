@@ -25,7 +25,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
-    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+//    implementation("org.springframework.boot:spring-boot-starter-log4j2")
     implementation("org.mapstruct:mapstruct:1.6.0.Beta1")
 
 

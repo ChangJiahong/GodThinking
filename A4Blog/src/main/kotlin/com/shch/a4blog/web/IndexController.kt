@@ -24,7 +24,7 @@ class IndexController(val pageService: IPageService,
         model.addAttribute("title", "A4")
         model.addAttribute("menus", menus)
         model.addAttribute(content)
-        return "/themes/A4/index"
+        return "themes/A4/index"
     }
 
     @GetMapping("/list")
@@ -40,7 +40,7 @@ class IndexController(val pageService: IPageService,
         )
 
         model.addAttribute("page", listPageModel)
-        return "/themes/A4/list"
+        return "themes/A4/list"
     }
 
     @GetMapping("/post/{id}")
@@ -48,21 +48,21 @@ class IndexController(val pageService: IPageService,
         val postVO = postService.getPostVOById(id) ?: return "/themes/A4/404"
         setMenus(model, httpRequest)
         model.addAttribute("post", postVO)
-        return "/themes/A4/post"
+        return "themes/A4/post"
     }
 
     @GetMapping("/category")
     fun getCategorys(model: Model,httpRequest: HttpServletRequest):String{
 
         setMenus(model, httpRequest)
-        return "/themes/A4/category"
+        return "themes/A4/category"
     }
 
     @GetMapping("/category/{value}")
     fun getCategory(@PathVariable value:String,model: Model,httpRequest: HttpServletRequest):String{
 
         setMenus(model, httpRequest)
-        return "/themes/A4/category"
+        return "themes/A4/category"
     }
 
 
@@ -71,7 +71,7 @@ class IndexController(val pageService: IPageService,
         val pageVo = pageService.getPageVOByPageName(path) ?: return "/themes/A4/404"
         setMenus(model, httpRequest)
         model.addAttribute("page", pageVo)
-        return "/themes/A4/page"
+        return "themes/A4/page"
     }
 
 

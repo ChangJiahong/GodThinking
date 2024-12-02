@@ -1,5 +1,7 @@
 package com.shch.starterwebext.model.vm.error
 
+import org.springframework.context.i18n.LocaleContextHolder
+
 /**
  * 系统错误
  * @des 500-599
@@ -9,15 +11,15 @@ package com.shch.starterwebext.model.vm.error
  */
 sealed class SystemError(code: Int, vararg args: String) : RestCode(code, args) {
 
-    data class ServerError(val msg:String): SystemError(500,msg)
+    data class ServerError(val msg: String) : SystemError(500, msg)
 
-    data class ErrorCodeUndefined(val ecode: String) : SystemError(501, ecode)
+    data class ErrorCodeUndefined(val ecode: String, val acode: String) :
+        SystemError(501, ecode, acode, LocaleContextHolder.getLocale().language)
 
     /**
      * 服务器错误
      */
-    data object InternalServerError: SystemError(502)
-
+    data object InternalServerError : SystemError(502)
 
 
 }
