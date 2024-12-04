@@ -24,6 +24,7 @@ class GtPost : Serializable {
 
     var enable: Boolean? = null
 
+    @TableField(value = "is_TOP")
     var isTOP :Boolean? = null
 
     var updateTime: Date? = null

@@ -1,7 +1,9 @@
 package com.shch.a4blog.service
 
+import com.baomidou.mybatisplus.core.metadata.IPage
 import com.shch.a4blog.model.vm.ListPageModel
 import com.shch.a4blog.model.vm.TimeLinePostVO
+import com.shch.a4blog.model.vo.PageVO
 import com.shch.a4blog.model.vo.PostVO
 
 interface IPostService {
@@ -10,4 +12,6 @@ interface IPostService {
     fun getTopListPostVO(): List<PostVO>
 
     fun getPostVOById(id: String): PostVO?
+
+    fun getVOPage(offset: Long, limit: Long): IPage<PostVO>
 }

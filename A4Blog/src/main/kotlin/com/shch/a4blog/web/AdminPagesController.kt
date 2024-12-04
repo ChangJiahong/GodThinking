@@ -31,4 +31,7 @@ class AdminPagesController {
 
     @GetMapping("/blank-page")
     fun blankPage():String = "admin/majestic/pages/samples/blank-page"
+
+    @GetMapping("/basic_elements")
+    fun basicElements():String = "admin/majestic/pages/forms/basic_elements"
 }

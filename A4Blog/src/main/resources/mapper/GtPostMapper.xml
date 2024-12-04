@@ -46,6 +46,21 @@
         CREATE_TIME
     </sql>
 
+    <sql id="res_col">
+        GPT.ID,
+        GPT.POST_ID,
+        TITLE,
+        MD_ID,
+        ENABLE,
+        IS_TOP,
+        GPT.UPDATE_TIME,
+        GPT.CREATE_TIME,
+        CASE WHEN TYPE='CATEGORY' THEN NAME END as CATEGORY_NAME,
+        CASE WHEN TYPE='CATEGORY' THEN VAL END as CATEGORY_VALUE,
+        CASE WHEN TYPE='TAG' THEN NAME END      as TAG_NAME,
+        CASE WHEN TYPE='TAG' THEN VAL END      as TAG_VALUE
+    </sql>
+
 
     <select id="selectTimelinePostsList" resultMap="TimelinePOMap" parameterType="Boolean">
         select
@@ -89,6 +104,15 @@
         left join PUBLIC.GT_ENTRIES GE on GEP.CID = GE.CID
         where ENABLE = 1 <if test="isTop">and IS_TOP = 1</if>  <if test="!isTop">and IS_TOP != 1</if>
         order by GPT.CREATE_TIME desc ;
+    </select>
+
+    <select id="selectPostsPages" resultMap="BaseResultMap">
+        select
+            <include refid="res_col"/>
+        from GT_POST as GPT
+        left join PUBLIC.GT_ENTRIES_POST GEP on GPT.POST_ID = GEP.POST_ID
+        left join PUBLIC.GT_ENTRIES GE on GEP.CID = GE.CID
+        order by GPT.CREATE_TIME desc
     </select>
 
 

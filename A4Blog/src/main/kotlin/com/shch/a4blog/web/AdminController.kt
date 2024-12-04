@@ -3,6 +3,7 @@ package com.shch.a4blog.web
 import com.shch.a4blog.model.bo.PageParams
 import com.shch.a4blog.service.IAccountService
 import com.shch.a4blog.service.IMdService
+import com.shch.a4blog.service.IPostService
 import com.shch.a4blog.service.impl.PageService
 import com.shch.starterwebext.model.vm.Rest
 import com.shch.starterwebext.model.vm.Rest.R.failed
@@ -20,8 +21,8 @@ import java.security.Principal
 @Controller
 @RequestMapping("/admin")
 class AdminController(
-    val accountService: IAccountService,
     val mdService: IMdService,
+    val postService: IPostService,
     private val pageService: PageService
 ) {
 
@@ -31,7 +32,7 @@ class AdminController(
         return "admin/majestic/index"
     }
 
-    @GetMapping("edit-md")
+    @GetMapping("/edit-md")
     fun editMd(mdId: String?, model: Model): String {
         if (!mdId.isNullOrBlank()) {
             val md = mdService.findVOByMdId(mdId)
@@ -40,33 +41,32 @@ class AdminController(
         return "admin/majestic/pages/md/edit-md"
     }
 
-    @GetMapping("manger-md")
+    @GetMapping("/manger-md")
     fun mangerMd(model: Model): String {
         return "admin/majestic/pages/md/manger-md"
     }
 
-    @PostMapping("mds")
-    @ResponseBody
-    fun getMds(@RequestBody pageParams: PageParams): Rest {
-        val mds = mdService.getVOPage(pageParams.offset.toLong(),pageParams.limit.toLong())
-        return Rest.ok(mds)
-    }
 
-    @GetMapping("manger-pages")
+    @GetMapping("/manger-pages")
     fun mangerPages(): String {
         return "admin/majestic/pages/pages/manger-pages"
     }
 
-    @PostMapping("pages")
-    @ResponseBody
-    fun getPages(@RequestBody pageParams: PageParams): Rest {
-        val pages = pageService.getVOPage(pageParams.offset,pageParams.limit)
-        return Rest.ok(pages)
-    }
 
-    @GetMapping("manger-posts")
+    @GetMapping("/manger-posts")
     fun mangerPosts(): String {
         return "admin/majestic/pages/posts/manger-posts"
+    }
+
+    /**
+     * 文章预览页面
+     */
+    @GetMapping("/preview-post/{postId}")
+    fun previewPost(@PathVariable postId: String, model: Model): String {
+        val postVO = postService.getPostVOById(postId) ?: return "/themes/A4/404"
+//        setMenus(model, httpRequest)
+        model.addAttribute("post", postVO)
+        return "themes/A4/post"
     }
 
 
@@ -75,40 +75,8 @@ class AdminController(
         return "admin/majestic/pages/samples/login"
     }
 
-    @PostMapping("/login")
-    @ResponseBody
-    fun doLogin(
-        @RequestParam username: String,
-        @RequestParam password: String,
-        httpResponse: HttpServletResponse
-    ): Rest {
-        val rest = accountService.login(username, password)
-        if (rest.isOk) {
-            val encodeToekn = URLEncoder.encode("bearer ${rest.data!!.access_token}", StandardCharsets.UTF_8.name())
-            httpResponse.setHeader(
-                "Set-Cookie",
-                "Authorization=${encodeToekn};refresh_token=${rest.data.refresh_token}"
-            )
-        }
-        return rest
-    }
 
-    @PostMapping("/put-md")
-    @ResponseBody
-    fun putMd(mdId: String?, @RequestParam title: String, @RequestParam mdContent: String): Rest {
-        var re = false
-        if (mdId.isNullOrBlank()) {
-            // insert
-            re = mdService.newMd(title, mdContent)
-        } else {
-            // update
-            re = mdService.updateMd(mdId, title, mdContent)
-        }
-
-        return if (re) Rest.ok() else Rest.failed(SystemError.ServerError("保存失败"))
-    }
-
-    @GetMapping("te")
+    @GetMapping("/te")
     fun test(model: Model): String {
         model.addAttribute("text", "COnONCoNNNNN")
         return "admin/majestic/text"
