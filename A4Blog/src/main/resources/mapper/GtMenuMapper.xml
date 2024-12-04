@@ -9,6 +9,8 @@
             <result property="uid" column="UID" jdbcType="VARCHAR"/>
             <result property="menuName" column="MENU_NAME" jdbcType="VARCHAR"/>
             <result property="pagePath" column="PAGE_PATH" jdbcType="VARCHAR"/>
+            <result property="isShow" column="IS_SHOW" jdbcType="INTEGER"/>
+            <result property="weight" column="WEIGHT" jdbcType="INTEGER"/>
             <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
     </resultMap>
 

@@ -1,119 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<div th:replace="~{themes/A4/fragment/head}"></div>
-
-
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{themes/A4/layout}">
 <body>
-<script src="/js/darkmode-js.min.js"></script>
-<script>
-    const options = {
-        bottom: '53px', // default: '32px'
-        right: 'unset', // default: '32px'
-        left: '42px', // default: 'unset'
-        time: '0.3s', // default: '0.3s'
-        mixColor: '#fff', // default: '#fff'
-        backgroundColor: ' #e4e4e4 ',  // default: '#fff'
-        buttonColorDark: '#100f2c',  // default: '#100f2c'
-        buttonColorLight: '#fff', // default: '#fff'
-        saveInCookies: true, // default: true,
-        label: '🌓', // default: ''
-        autoMatchOsTheme: true // default: true
-    }
-    const darkmode = new Darkmode(options);
-    darkmode.showWidget();
-</script>
 
-
-<div class="left-toc-container">
-    <nav id="toc" class="bs-docs-sidebar"></nav>
-</div>
-
-<div class="paper">
-
-    <div class="shadow-drop-2-top paper-main">
-
-        <div class="header">
-            <div class="header-container">
-                <img style="
-        width: 56px;
-        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp"
-                     width="10%"></img>
-                <div class="header-content">
-                    <a class="logo" href="/">Nino</a>
-                    <span class="description">Web开发者｜阅读写作爱好者</span>
-                </div>
-
-            </div>
-
-
-            <ul class="nav">
-                <li><a href="/">🏃首页</a></li>
-                <!--                <li><i>-->
-                <!--                    <a style="color: #4e7dde;" href="/list/">⛰️文章</a>-->
-                <!--                </i></li>-->
-                <!--                <li><a href="/works/">🌸作品</a></li>-->
-                <!--                <li><a href="/message/">🔈留言</a></li>-->
-                <!--                <li><a href="/tags/">📌标签</a></li>-->
-                <!--                <li><a href="/categories/">🔖分类</a></li>-->
-                <!--                <li><a href="/about/">🌕关于</a></li>-->
-                <!--                <li><a href="/now/">📅Now</a></li>-->
-
-                <th:block th:each="menu:${menus}">
-                    <li><a th:style="${menu.active?'color: #4e7dde;':''}" th:href="${menu.path}"
-                           th:text="${menu.name}"></a></li>
-                </th:block>
-
-            </ul>
-        </div>
-
-        <div class="archive-list">
-            <ul class="archive">
-                <!--先放 置顶 文章-->
-                <th:block th:each="top:${page.tops}">
-                    <li>
-                        <span class="archive-date"> &nbsp;&nbsp;&nbsp;TOP</span>
-                        <div class="archive-main">
-                            <th:block th:if="${top.category!=null}">
-                                <a class="archive-title" th:href="'/category/'+${top.category.value}"
-                                   th:text="${top.category.name}"></a> |
-                            </th:block>
-                            <a class="archive-title"
-                               th:href="${'/post/'+top.postId}" th:text="${top.title}"></a>
-                        </div>
-                    </li>
-                </th:block>
-                <!--后放 其他 文章-->
-                <th:block th:each="archive:${page.archives}">
-                    <!--年份[数量]-->
-                    <li>
+<section layout:fragment="main">
+    <div class="archive-list">
+        <ul class="archive">
+            <!--先放 置顶 文章-->
+            <th:block th:each="top:${page.tops}">
+                <li>
+                    <span class="archive-date"> &nbsp;&nbsp;&nbsp;TOP</span>
+                    <div class="archive-main">
+                        <th:block th:if="${top.category!=null}">
+                            <a class="archive-title" th:href="'/category/'+${top.category.value}"
+                               th:text="${top.category.name}"></a> |
+                        </th:block>
+                        <a class="archive-title"
+                           th:href="${'/post/'+top.postId}" th:text="${top.title}"></a>
+                    </div>
+                </li>
+            </th:block>
+            <!--后放 其他 文章-->
+            <th:block th:each="archive:${page.archives}">
+                <!--年份[数量]-->
+                <li>
                         <span class="year-font-color">
                             <span th:text="${archive.name}+'['+${archive.posts.size}+']'"></span>
                             <span th:if="${archiveStat.index}==0" class="darkmode-ignore">🍃</span>
                         </span>
+                </li>
+                <th:block th:each="post:${archive.posts}">
+                    <li>
+                        <span class="archive-date" th:text="'&nbsp;&nbsp;&nbsp;'+${post.createTime}"></span>
+                        <div class="archive-main">
+                            <th:block th:if="${post.category!=null}">
+                                <a class="archive-title" th:href="'/category/'+${post.category.value}"
+                                   th:text="${post.category.name}"></a> |
+                            </th:block>
+                            <a class="archive-title"
+                               th:href="${'/post/'+post.postId}" th:text="${post.title}"></a>
+                        </div>
                     </li>
-                    <th:block th:each="post:${archive.posts}">
-                        <li>
-                            <span class="archive-date" th:text="'&nbsp;&nbsp;&nbsp;'+${post.createTime}"></span>
-                            <div class="archive-main">
-                                <th:block th:if="${post.category!=null}">
-                                    <a class="archive-title" th:href="'/category/'+${post.category.value}"
-                                       th:text="${post.category.name}"></a> |
-                                </th:block>
-                                <a class="archive-title"
-                                   th:href="${'/post/'+post.postId}" th:text="${post.title}"></a>
-                            </div>
-                        </li>
-                    </th:block>
                 </th:block>
-            </ul>
-        </div>
-
-
-        <div th:replace="~{themes/A4/fragment/footer::footer(false)}"></div>
+            </th:block>
+        </ul>
     </div>
+</section>
 
-
-</div>
 </body>
 </html>

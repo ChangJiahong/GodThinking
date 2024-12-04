@@ -20,6 +20,10 @@ class GtMenu : Serializable {
 
     var pagePath: String? = null
 
+    var isShow:Boolean?=null
+
+    var weight:Int?=null
+
     var createTime: Date? = null
 
     companion object {
